@@ -47,22 +47,36 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     },
     ref
   ) => {
+    const [isFocused, setIsFocused] = React.useState(false);
+
     const sizeStyles: Record<InputSize, number> = {
-      sm: 32,
-      md: 40,
-      lg: 48,
+      sm: 36,
+      md: 44,
+      lg: 52,
     };
 
     const textSizeStyles: Record<InputSize, number> = {
-      sm: 12,
-      md: 14,
+      sm: 13,
+      md: 15,
       lg: 16,
     };
 
     const paddingStyles: Record<InputSize, number> = {
-      sm: 8,
+      sm: 10,
       md: 12,
-      lg: 16,
+      lg: 14,
+    };
+
+    const getBorderColor = () => {
+      if (hasError || error) return "#ef4444";
+      if (isFocused) return "#0e7ae5";
+      return "#e8e8e8";
+    };
+
+    const getBackgroundColor = () => {
+      if (isFocused) return "#f0f8ff";
+      if (hasError || error) return "#fef2f2";
+      return "#ffffff";
     };
 
     const styles = StyleSheet.create({
@@ -72,37 +86,45 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
-        marginBottom: 6,
+        color: "#0a0a0a",
+        marginBottom: 8,
+        letterSpacing: 0.3,
       },
       inputContainer: {
         flexDirection: "row",
         alignItems: "center",
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: hasError || error ? "#ef4444" : "#d1d5db",
-        backgroundColor: "#ffffff",
+        borderRadius: 12,
+        borderWidth: 1.5,
+        borderColor: getBorderColor(),
+        backgroundColor: getBackgroundColor(),
         height: sizeStyles[size],
         paddingHorizontal: paddingStyles[size],
         gap: 8,
+        shadowColor: isFocused ? "#0e7ae5" : hasError ? "#ef4444" : "transparent",
+        shadowOffset: { width: 0, height: isFocused ? 4 : 2 },
+        shadowOpacity: isFocused ? 0.12 : hasError ? 0.08 : 0,
+        shadowRadius: isFocused ? 8 : 4,
+        elevation: isFocused ? 3 : hasError ? 2 : 0,
       },
       input: {
         flex: 1,
         fontSize: textSizeStyles[size],
-        color: "#1f2937",
+        color: "#0a0a0a",
         padding: 0,
         fontFamily: "System",
       },
       errorText: {
         fontSize: 12,
         color: "#ef4444",
-        marginTop: 4,
+        marginTop: 6,
         fontWeight: "500",
+        letterSpacing: 0.2,
       },
       helperText: {
         fontSize: 12,
-        color: "#6b7280",
-        marginTop: 4,
+        color: "#737373",
+        marginTop: 6,
+        letterSpacing: 0.2,
       },
       leftElement: {
         marginRight: 4,
@@ -121,7 +143,9 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
             ref={ref}
             style={styles.input}
             placeholder={placeholder}
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor="#a1a1a1"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             {...props}
           />
           {rightElement && (

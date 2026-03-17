@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   View,
@@ -59,19 +59,21 @@ const ModalComponent = React.forwardRef<View, ModalComponentProps>(
         width: "85%",
         maxWidth: 400,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-        elevation: 10,
+        shadowOffset: { width: 0, height: 12 },
+        shadowOpacity: 0.3,
+        shadowRadius: 12,
+        elevation: 12,
       },
       title: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "700",
         color: "#1f2937",
         marginBottom: 16,
+        letterSpacing: 0.3,
       },
       content: {
         marginBottom: 20,
+        lineHeight: 24,
       },
       buttonContainer: {
         flexDirection: "row",

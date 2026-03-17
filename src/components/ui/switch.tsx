@@ -33,10 +33,10 @@ const Switch = React.forwardRef<View, SwitchProps>(
       onValueChange,
       disabled = false,
       containerStyle,
-      activeColor = "#0ea5e9",
-      inactiveColor = "#e5e7eb",
-      width = 48,
-      height = 28,
+      activeColor = "#0e7ae5",
+      inactiveColor = "#e8e8e8",
+      width = 52,
+      height = 32,
     },
     ref
   ) => {
@@ -50,11 +50,11 @@ const Switch = React.forwardRef<View, SwitchProps>(
         duration: 300,
         useNativeDriver: true,
       }).start();
-    }, [value]);
+    }, [value, width, height, translateX]);
 
     const styles = StyleSheet.create({
       container: {
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? 0.6 : 1,
       },
       track: {
         width: width,
@@ -63,6 +63,11 @@ const Switch = React.forwardRef<View, SwitchProps>(
         backgroundColor: value ? activeColor : inactiveColor,
         padding: 2,
         justifyContent: "center",
+        shadowColor: value ? activeColor : "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: value ? 0.15 : 0.05,
+        shadowRadius: value ? 6 : 3,
+        elevation: value ? 3 : 1,
       },
       thumb: {
         width: height - 4,
@@ -70,10 +75,10 @@ const Switch = React.forwardRef<View, SwitchProps>(
         borderRadius: (height - 4) / 2,
         backgroundColor: "#ffffff",
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 3,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.12,
+        shadowRadius: 4,
+        elevation: 4,
       },
     });
 
@@ -83,7 +88,7 @@ const Switch = React.forwardRef<View, SwitchProps>(
         style={[styles.container, containerStyle]}
         onPress={() => !disabled && onValueChange?.(!value)}
         disabled={disabled}
-        activeOpacity={0.7}
+        activeOpacity={0.8}
       >
         <View style={styles.track}>
           <Animated.View

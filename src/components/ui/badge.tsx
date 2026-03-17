@@ -33,13 +33,13 @@ const Badge = React.forwardRef<View, BadgeProps>(
     },
     ref
   ) => {
-    const variantStyles: Record<BadgeVariant, { bg: string; text: string }> = {
-      default: { bg: "#f3f4f6", text: "#6b7280" },
-      primary: { bg: "#dbeafe", text: "#0369a1" },
-      secondary: { bg: "#fed7aa", text: "#92400e" },
-      destructive: { bg: "#fee2e2", text: "#991b1b" },
-      success: { bg: "#dcfce7", text: "#166534" },
-      warning: { bg: "#fef3c7", text: "#92400e" },
+    const variantStyles: Record<BadgeVariant, { bg: string; text: string; border: string }> = {
+      default: { bg: "#f5f5f5", text: "#525252", border: "#e8e8e8" },
+      primary: { bg: "#f0f8ff", text: "#052242", border: "#c1e3ff" },
+      secondary: { bg: "#f0fdfa", text: "#023632", border: "#99fbe8" },
+      destructive: { bg: "#fef2f2", text: "#7f1d1d", border: "#fecaca" },
+      success: { bg: "#f0fdf4", text: "#145231", border: "#bbf7d0" },
+      warning: { bg: "#fef7e0", text: "#78350f", border: "#fde047" },
     };
 
     const selectedVariant = variantStyles[variant];
@@ -47,15 +47,23 @@ const Badge = React.forwardRef<View, BadgeProps>(
     const styles = StyleSheet.create({
       badge: {
         backgroundColor: selectedVariant.bg,
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: rounded ? 12 : 4,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: rounded ? 20 : 6,
         alignSelf: "flex-start",
+        borderWidth: 1,
+        borderColor: selectedVariant.border,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.04,
+        shadowRadius: 2,
+        elevation: 1,
       },
       text: {
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: "600",
         color: selectedVariant.text,
+        letterSpacing: 0.2,
       },
     });
 

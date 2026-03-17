@@ -36,30 +36,34 @@ const Alert = React.forwardRef<View, AlertProps>(
     },
     ref
   ) => {
-    const typeStyles: Record<AlertType, { bg: string; border: string; text: string; icon: string }> = {
+    const typeStyles: Record<AlertType, { bg: string; border: string; text: string; icon: string; shadow: string }> = {
       success: {
-        bg: "#dcfce7",
+        bg: "#f0fdf4",
         border: "#22c55e",
-        text: "#166534",
+        text: "#145231",
         icon: "✓",
+        shadow: "#22c55e",
       },
       error: {
-        bg: "#fee2e2",
+        bg: "#fef2f2",
         border: "#ef4444",
-        text: "#991b1b",
+        text: "#7f1d1d",
         icon: "✕",
+        shadow: "#ef4444",
       },
       warning: {
-        bg: "#fef3c7",
-        border: "#eab308",
-        text: "#92400e",
+        bg: "#fef7e0",
+        border: "#f59e0b",
+        text: "#78350f",
         icon: "!",
+        shadow: "#f59e0b",
       },
       info: {
-        bg: "#dbeafe",
-        border: "#0ea5e9",
-        text: "#0369a1",
+        bg: "#f0f8ff",
+        border: "#0e7ae5",
+        text: "#052242",
         icon: "ⓘ",
+        shadow: "#0e7ae5",
       },
     };
 
@@ -70,13 +74,20 @@ const Alert = React.forwardRef<View, AlertProps>(
         backgroundColor: selectedType.bg,
         borderLeftWidth: 4,
         borderLeftColor: selectedType.border,
-        borderRadius: 8,
+        borderRadius: 12,
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 14,
         marginBottom: 12,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
+        shadowColor: selectedType.shadow,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 4,
+        elevation: 2,
+        borderWidth: 1,
+        borderColor: selectedType.border + "20",
       },
       content: {
         flex: 1,
@@ -85,19 +96,20 @@ const Alert = React.forwardRef<View, AlertProps>(
       icon: {
         fontSize: 18,
         color: selectedType.text,
-        fontWeight: "bold",
+        fontWeight: "700",
         marginRight: 12,
+        marginTop: 2,
       },
       title: {
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: "600",
         color: selectedType.text,
-        marginBottom: message ? 4 : 0,
+        marginBottom: message ? 6 : 0,
       },
       message: {
         fontSize: 13,
-        color: selectedType.text,
-        lineHeight: 19,
+        color: selectedType.text + "CC",
+        lineHeight: 20,
       },
       closeButton: {
         padding: 4,
@@ -105,7 +117,7 @@ const Alert = React.forwardRef<View, AlertProps>(
       closeText: {
         fontSize: 18,
         color: selectedType.text,
-        fontWeight: "bold",
+        fontWeight: "700",
       },
     });
 
