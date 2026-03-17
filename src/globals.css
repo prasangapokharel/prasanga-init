@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-muted-300;
+  }
+
+  body {
+    @apply bg-muted-50 text-muted-900;
+  }
+}
+
+@layer components {
+  .text-primary {
+    @apply text-primary-600;
+  }
+
+  .bg-primary-light {
+    @apply bg-primary-50;
+  }
+
+  .border-primary {
+    @apply border-primary-300;
+  }
+}

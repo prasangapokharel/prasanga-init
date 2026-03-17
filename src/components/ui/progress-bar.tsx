@@ -1,0 +1,99 @@
+import React from "react";
+import { View, Text, ViewStyle, StyleSheet } from "react-native";
+
+interface ProgressBarProps {
+  /** Progress value (0-100) */
+  value?: number;
+  /** Label text */
+  label?: string;
+  /** Show percentage text */
+  showLabel?: boolean;
+  /** Container style */
+  containerStyle?: ViewStyle;
+  /** Height of bar */
+  height?: number;
+  /** Bar color */
+  color?: string;
+  /** Background color */
+  backgroundColor?: string;
+  /** Animated */
+  animated?: boolean;
+  /** Label position */
+  labelPosition?: "top" | "right" | "inside";
+}
+
+const ProgressBar = React.forwardRef<View, ProgressBarProps>(
+  (
+    {
+      value = 0,
+      label,
+      showLabel = true,
+      containerStyle,
+      height = 8,
+      color = "#0ea5e9",
+      backgroundColor = "#e5e7eb",
+      labelPosition = "top",
+    },
+    ref
+  ) => {
+    const percentage = Math.min(Math.max(value, 0), 100);
+
+    const styles = StyleSheet.create({
+      container: {
+        marginBottom: 12,
+      },
+      labelContainer: {
+        flexDirection:
+          labelPosition === "right" ? "row" : "column",
+        justifyContent: "space-between",
+        alignItems: labelPosition === "inside" ? "center" : "flex-start",
+        marginBottom: labelPosition === "top" ? 8 : 0,
+      },
+      label: {
+        fontSize: 12,
+        fontWeight: "600",
+        color: "#6b7280",
+        marginBottom: labelPosition === "top" ? 0 : 4,
+      },
+      barContainer: {
+        height: height,
+        backgroundColor: backgroundColor,
+        borderRadius: height / 2,
+        overflow: "hidden",
+      },
+      bar: {
+        height: height,
+        backgroundColor: color,
+        borderRadius: height / 2,
+        width: `${percentage}%`,
+      },
+      percentage: {
+        fontSize: 12,
+        fontWeight: "600",
+        color: labelPosition === "inside" ? "#ffffff" : "#6b7280",
+        marginLeft: labelPosition === "right" ? 8 : 0,
+      },
+    });
+
+    return (
+      <View ref={ref} style={[styles.container, containerStyle]}>
+        {showLabel && (labelPosition === "top" || labelPosition === "right") && (
+          <View style={styles.labelContainer}>
+            {label && <Text style={styles.label}>{label}</Text>}
+            <Text style={styles.percentage}>{percentage}%</Text>
+          </View>
+        )}
+        <View style={styles.barContainer}>
+          <View style={[styles.bar, { width: `${percentage}%` }]} />
+          {labelPosition === "inside" && showLabel && (
+            <Text style={styles.percentage}>{percentage}%</Text>
+          )}
+        </View>
+      </View>
+    );
+  }
+);
+
+ProgressBar.displayName = "ProgressBar";
+
+export default ProgressBar;
