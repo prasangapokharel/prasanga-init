@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Button from "./button";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface ModalComponentProps {
   /** Whether modal is visible */
@@ -68,8 +69,7 @@ const ModalComponent = React.forwardRef<View, ModalComponentProps>(
         elevation: 12,
       },
       title: {
-        fontSize: 20,
-        fontWeight: "700",
+        ...typography.heading.xs,
         color: colors.foreground,
         marginBottom: 16,
         letterSpacing: 0.3,

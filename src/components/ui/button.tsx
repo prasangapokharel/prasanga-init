@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 export type ButtonVariant =
   | "default"
@@ -107,9 +108,9 @@ const Button = React.forwardRef<View, ButtonProps>(
     };
 
     const sizeTextStyles: Record<ButtonSize, TextStyle> = {
-      sm: { fontSize: 12, fontWeight: "600" },
-      md: { fontSize: 14, fontWeight: "600" },
-      lg: { fontSize: 16, fontWeight: "700" },
+      sm: typography.button.sm,
+      md: typography.button.md,
+      lg: typography.button.lg,
     };
 
     return (

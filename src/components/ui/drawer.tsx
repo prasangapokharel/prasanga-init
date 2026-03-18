@@ -13,6 +13,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 import Button from "./button";
 
 interface DrawerProps {
@@ -170,8 +171,7 @@ const Drawer = React.forwardRef<View, DrawerProps>(
         gap: 12,
       },
       title: {
-        fontSize: 18,
-        fontWeight: "700",
+        ...typography.heading.sm,
         color: colors.foreground,
         flex: 1,
         letterSpacing: -0.3,
@@ -186,8 +186,7 @@ const Drawer = React.forwardRef<View, DrawerProps>(
         alignItems: "center",
       },
       closeButtonText: {
-        fontSize: 20,
-        fontWeight: "600",
+        ...typography.heading.xs,
         color: colors.foreground,
       },
       content: {

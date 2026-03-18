@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ViewStyle, TextStyle, StyleSheet } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 export type BadgeVariant =
   | "default"
@@ -63,8 +64,7 @@ const Badge = React.forwardRef<View, BadgeProps>(
         elevation: 1,
       },
       text: {
-        fontSize: 13,
-        fontWeight: "600",
+        ...typography.tiny.md,
         color: selectedVariant.text,
         letterSpacing: 0.2,
       },

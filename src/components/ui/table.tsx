@@ -9,6 +9,7 @@ import {
   FlatList,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 export interface TableColumn {
   /** Column key/identifier */
@@ -113,11 +114,11 @@ const Table = React.forwardRef<View, TableProps>(
         justifyContent: "center",
       },
       headerText: {
-        fontSize: 13,
-        fontWeight: "700",
+        ...typography.body.sm,
         color: colors.foreground,
         letterSpacing: 0.3,
         textTransform: "uppercase",
+        fontWeight: "700",
       },
       rowContainer: {
         flexDirection: "row",
@@ -136,9 +137,8 @@ const Table = React.forwardRef<View, TableProps>(
         justifyContent: "center",
       },
       cellText: {
-        fontSize: 14,
+        ...typography.body.md,
         color: colors.foreground,
-        lineHeight: 20,
       },
       cellMutedText: {
         color: colors.mutedForeground,
@@ -149,7 +149,7 @@ const Table = React.forwardRef<View, TableProps>(
         justifyContent: "center",
       },
       emptyText: {
-        fontSize: 14,
+        ...typography.body.md,
         color: colors.mutedForeground,
         textAlign: "center",
       },

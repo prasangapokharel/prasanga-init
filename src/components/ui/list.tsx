@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface ListItem {
   id: string | number;
@@ -59,13 +60,12 @@ const List = React.forwardRef<View, ListProps>(
         flex: 1,
       },
       title: {
-        fontSize: 14,
-        fontWeight: "600",
+        ...typography.body.md,
         color: colors.foreground,
         marginBottom: 4,
       },
       subtitle: {
-        fontSize: 12,
+        ...typography.caption.sm,
         color: colors.mutedForeground,
       },
       separator: {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 export type AlertType = "success" | "error" | "warning" | "info";
 
@@ -104,16 +105,13 @@ const Alert = React.forwardRef<View, AlertProps>(
         marginRight: 12,
       },
       title: {
-        fontSize: 14,
-        fontWeight: "600",
+        ...typography.alert.title,
         color: selectedType.text,
         marginBottom: message ? 4 : 0,
-        lineHeight: 20,
       },
       message: {
-        fontSize: 13,
+        ...typography.alert.message,
         color: selectedType.text,
-        lineHeight: 18,
         opacity: 0.85,
       },
       closeButton: {
@@ -121,9 +119,8 @@ const Alert = React.forwardRef<View, AlertProps>(
         marginTop: -2,
       },
       closeText: {
-        fontSize: 16,
+        ...typography.alert.close,
         color: selectedType.accent,
-        fontWeight: "600",
       },
     });
 

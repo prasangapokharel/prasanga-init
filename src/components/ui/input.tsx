@@ -9,6 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -59,9 +60,9 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     };
 
     const textSizeStyles: Record<InputSize, number> = {
-      sm: 13,
-      md: 15,
-      lg: 16,
+      sm: typography.input.sm.fontSize,
+      md: typography.input.md.fontSize,
+      lg: typography.input.lg.fontSize,
     };
 
     const paddingStyles: Record<InputSize, number> = {
@@ -87,8 +88,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
         marginBottom: 12,
       },
       labelText: {
-        fontSize: 14,
-        fontWeight: "600",
+        ...typography.label.md,
         color: colors.foreground,
         marginBottom: 8,
         letterSpacing: 0.3,
@@ -117,14 +117,13 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
         fontFamily: "System",
       },
       errorText: {
-        fontSize: 12,
+        ...typography.caption.sm,
         color: colors.destructive,
         marginTop: 6,
-        fontWeight: "500",
         letterSpacing: 0.2,
       },
       helperText: {
-        fontSize: 12,
+        ...typography.caption.sm,
         color: colors.mutedForeground,
         marginTop: 6,
         letterSpacing: 0.2,
