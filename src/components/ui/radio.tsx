@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface RadioOption {
   label: string;
@@ -55,8 +56,7 @@ const Radio = React.forwardRef<View, RadioProps>(
       opacity: disabled ? 0.5 : 1,
     },
     labelText: {
-      fontSize: 14,
-      fontWeight: "600",
+      ...typography.label.md,
       color: colors.foreground,
       marginBottom: 8,
     },
@@ -85,9 +85,8 @@ const Radio = React.forwardRef<View, RadioProps>(
       backgroundColor: defaultActiveColor,
     },
     optionLabel: {
-      fontSize: 14,
+      ...typography.label.md,
       color: colors.foreground,
-      fontWeight: "500",
     },
   });
 

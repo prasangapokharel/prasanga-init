@@ -7,6 +7,7 @@ import {
   Text,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface CheckboxProps {
   /** Whether checkbox is checked */
@@ -64,9 +65,8 @@ const Checkbox = React.forwardRef<View, CheckboxProps>(
         fontWeight: "bold",
       },
       label: {
-        fontSize: 14,
+        ...typography.label.md,
         color: colors.foreground,
-        fontWeight: "500",
       },
     });
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ViewStyle, StyleSheet } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface CardProps {
   /** Card content */

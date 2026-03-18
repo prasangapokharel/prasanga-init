@@ -313,4 +313,56 @@ export function getCSSVariableColor(variableName: string, isDark: boolean = fals
   return hslToHex(hslValue);
 }
 
+/**
+ * Premium typography scale
+ * Optimized font sizes for professional UI with small, precise sizing
+ * Follows shadcn/ui design patterns for consistency
+ */
+export const typographyScale = {
+  // Small text - captions, labels, hints
+  xs: 10,
+  sm: 11,
+  
+  // Base text - most common text sizes
+  base: 12,
+  
+  // Small-medium - body text, inputs
+  md: 13,
+  
+  // Medium - standard text, buttons
+  lg: 14,
+  
+  // Large - headers, titles
+  xl: 15,
+  "2xl": 16,
+  
+  // Extra large - main headings
+  "3xl": 18,
+  "4xl": 20,
+  "5xl": 24,
+  "6xl": 28,
+  "7xl": 32,
+};
+
+/**
+ * Line height ratios (multipliers of font size)
+ * Ensures proper text spacing and readability
+ */
+export const lineHeightScale = {
+  tight: 1.2,
+  normal: 1.4,
+  relaxed: 1.6,
+  loose: 1.8,
+};
+
+/**
+ * Get optimized line height for font size
+ * @param fontSize - Font size in pixels
+ * @param ratio - Line height ratio (default: 1.4)
+ * @returns Calculated line height
+ */
+export function getLineHeight(fontSize: number, ratio: number = 1.4): number {
+  return Math.round(fontSize * ratio);
+}
+
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ViewStyle, StyleSheet } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface CircularProgressProps {
   /** Progress value (0-100) */
@@ -60,12 +61,11 @@ const CircularProgress = React.forwardRef<View, CircularProgressProps>(
         justifyContent: "center",
       },
       percentage: {
-        fontSize: 24,
-        fontWeight: "700",
+        ...typography.display.sm,
         color: defaultColor,
       },
       label: {
-        fontSize: 12,
+        ...typography.caption.sm,
         color: colors.mutedForeground,
         marginTop: 4,
       },

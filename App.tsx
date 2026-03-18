@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ThemeProvider, useTheme } from "./src/lib/theme-context";
+import { typography } from "./src/lib/typography";
 import Button from "./src/components/ui/button";
 import Card from "./src/components/ui/card";
 import Sheet from "./src/components/ui/sheet";
@@ -52,24 +53,22 @@ function AppContent() {
       borderBottomColor: colors.border,
       backgroundColor: colors.card,
     },
-    headerTitle: {
-      fontSize: 18,
-      fontWeight: "700",
-      color: colors.foreground,
-    },
-    themeToggleButton: {
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderRadius: 6,
-      backgroundColor: colors.muted,
-      borderWidth: 1,
-      borderColor: colors.border,
-    },
-    themeToggleText: {
-      fontSize: 14,
-      fontWeight: "600",
-      color: colors.primary,
-    },
+     headerTitle: {
+       ...typography.heading.sm,
+       color: colors.foreground,
+     },
+     themeToggleButton: {
+       paddingHorizontal: 12,
+       paddingVertical: 8,
+       borderRadius: 6,
+       backgroundColor: colors.muted,
+       borderWidth: 1,
+       borderColor: colors.border,
+     },
+     themeToggleText: {
+       ...typography.label.md,
+       color: colors.primary,
+     },
     scrollContent: {
       padding: 20,
       paddingBottom: 40,
@@ -77,25 +76,22 @@ function AppContent() {
     heroSection: {
       marginBottom: 40,
     },
-    heroTitle: {
-      fontSize: 28,
-      fontWeight: "800",
-      color: colors.foreground,
-      marginBottom: 8,
-      letterSpacing: -0.5,
-    },
-    heroSubtitle: {
-      fontSize: 16,
-      color: colors.mutedForeground,
-      lineHeight: 24,
-      marginBottom: 16,
-    },
-    heroDescription: {
-      fontSize: 14,
-      color: colors.mutedForeground,
-      lineHeight: 22,
-      marginBottom: 20,
-    },
+     heroTitle: {
+       ...typography.display.lg,
+       color: colors.foreground,
+       marginBottom: 8,
+       letterSpacing: -0.5,
+     },
+     heroSubtitle: {
+       ...typography.heading.xs,
+       color: colors.mutedForeground,
+       marginBottom: 16,
+     },
+     heroDescription: {
+       ...typography.body.md,
+       color: colors.mutedForeground,
+       marginBottom: 20,
+     },
     badgeContainer: {
       flexDirection: "row",
       gap: 8,
@@ -107,18 +103,17 @@ function AppContent() {
     sectionHeader: {
       marginBottom: 16,
     },
-    sectionTitle: {
-      fontSize: 16,
-      fontWeight: "700",
-      color: colors.foreground,
-      marginBottom: 4,
-      textTransform: "uppercase",
-      letterSpacing: 0.5,
-    },
-    sectionSubtitle: {
-      fontSize: 13,
-      color: colors.mutedForeground,
-    },
+     sectionTitle: {
+       ...typography.subheading.lg,
+       color: colors.foreground,
+       marginBottom: 4,
+       textTransform: "uppercase",
+       letterSpacing: 0.5,
+     },
+     sectionSubtitle: {
+       ...typography.body.sm,
+       color: colors.mutedForeground,
+     },
     demoGrid: {
       gap: 12,
     },
@@ -137,26 +132,23 @@ function AppContent() {
     demoCardHeader: {
       marginBottom: 12,
     },
-    demoCardTitle: {
-      fontSize: 15,
-      fontWeight: "700",
-      color: colors.foreground,
-      marginBottom: 4,
-    },
-    demoCardLabel: {
-      fontSize: 12,
-      fontWeight: "500",
-      color: colors.primary,
-      textTransform: "uppercase",
-      letterSpacing: 0.5,
-      marginBottom: 8,
-    },
-    demoCardDescription: {
-      fontSize: 13,
-      color: colors.mutedForeground,
-      lineHeight: 19,
-      marginBottom: 12,
-    },
+     demoCardTitle: {
+       ...typography.subheading.md,
+       color: colors.foreground,
+       marginBottom: 4,
+     },
+     demoCardLabel: {
+       ...typography.tiny.md,
+       color: colors.primary,
+       textTransform: "uppercase",
+       letterSpacing: 0.5,
+       marginBottom: 8,
+     },
+     demoCardDescription: {
+       ...typography.body.sm,
+       color: colors.mutedForeground,
+       marginBottom: 12,
+     },
     demoButton: {
       paddingHorizontal: 12,
       paddingVertical: 8,
@@ -164,61 +156,56 @@ function AppContent() {
       borderRadius: 6,
       alignItems: "center",
     },
-    demoButtonText: {
-      color: colors.primaryForeground,
-      fontSize: 13,
-      fontWeight: "600",
-    },
-    footer: {
-      paddingTop: 20,
-      borderTopWidth: 1,
-      borderTopColor: colors.border,
-      alignItems: "center",
-    },
-    footerText: {
-      fontSize: 12,
-      color: colors.mutedForeground,
-      textAlign: "center",
-      lineHeight: 18,
-    },
-    statsContainer: {
-      flexDirection: "row",
-      gap: 12,
-      marginTop: 16,
-    },
-    statBox: {
-      flex: 1,
-      padding: 12,
-      backgroundColor: colors.muted,
-      borderRadius: 6,
-      alignItems: "center",
-    },
-    statNumber: {
-      fontSize: 18,
-      fontWeight: "700",
-      color: colors.primary,
-      marginBottom: 4,
-    },
-    statLabel: {
-      fontSize: 11,
-      color: colors.mutedForeground,
-      textAlign: "center",
-    },
-    demoSheetContent: {
-      padding: 20,
-    },
-    demoSheetTitle: {
-      fontSize: 18,
-      fontWeight: "700",
-      color: colors.foreground,
-      marginBottom: 12,
-    },
-    demoSheetDescription: {
-      fontSize: 14,
-      color: colors.mutedForeground,
-      lineHeight: 21,
-      marginBottom: 16,
-    },
+     demoButtonText: {
+       ...typography.label.md,
+       color: colors.primaryForeground,
+     },
+     footerText: {
+       ...typography.caption.sm,
+       color: colors.mutedForeground,
+       textAlign: "center",
+     },
+     statNumber: {
+       ...typography.heading.xs,
+       color: colors.primary,
+       marginBottom: 4,
+     },
+     statLabel: {
+       ...typography.tiny.sm,
+       color: colors.mutedForeground,
+       textAlign: "center",
+     },
+     demoSheetTitle: {
+       ...typography.heading.sm,
+       color: colors.foreground,
+       marginBottom: 12,
+     },
+     demoSheetDescription: {
+       ...typography.body.md,
+       color: colors.mutedForeground,
+       marginBottom: 16,
+     },
+     footer: {
+       paddingTop: 20,
+       borderTopWidth: 1,
+       borderTopColor: colors.border,
+       alignItems: "center",
+     },
+     statsContainer: {
+       flexDirection: "row",
+       gap: 12,
+       marginTop: 16,
+     },
+     statBox: {
+       flex: 1,
+       padding: 12,
+       backgroundColor: colors.muted,
+       borderRadius: 6,
+       alignItems: "center",
+     },
+     demoSheetContent: {
+       padding: 20,
+     },
   });
 
    const demos = [

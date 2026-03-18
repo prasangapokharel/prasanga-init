@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Button from "./button";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface DatePickerProps {
   /** Selected date */
@@ -140,102 +141,95 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
         alignItems: "center",
         marginBottom: 20,
       },
-      title: {
-        fontSize: 18,
-        fontWeight: "700",
-        color: colors.foreground,
-        letterSpacing: 0.3,
-      } as TextStyle,
-      monthYear: {
-        fontSize: 16,
-        fontWeight: "600",
-        color: colors.mutedForeground,
-        marginBottom: 16,
-        textAlign: "center",
-      } as TextStyle,
-      navigationButton: {
-        padding: 8,
-        borderRadius: 8,
-        backgroundColor: colors.muted,
-      } as ViewStyle,
-      navigationText: {
-        fontSize: 18,
-        fontWeight: "600",
-        color: colors.foreground,
-      } as TextStyle,
-      weekdayContainer: {
-        flexDirection: "row",
-        marginBottom: 12,
-      },
-      weekday: {
-        flex: 1,
-        textAlign: "center",
-        fontSize: 12,
-        fontWeight: "600",
-        color: colors.mutedForeground,
-        paddingVertical: 8,
-      } as TextStyle,
-      calendarRow: {
-        flexDirection: "row",
-        marginBottom: 8,
-      },
-      dayButton: {
-        flex: 1,
-        aspectRatio: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 8,
-        backgroundColor: colors.background,
-      } as ViewStyle,
-      dayButtonSelected: {
-        backgroundColor: colors.primary,
-      } as ViewStyle,
-      dayButtonDisabled: {
-        opacity: 0.3,
-      } as ViewStyle,
-      dayText: {
-        fontSize: 14,
-        fontWeight: "500",
-        color: colors.foreground,
-      } as TextStyle,
-      dayTextSelected: {
-        color: colors.primaryForeground,
-        fontWeight: "700",
-      } as TextStyle,
-      timeContainer: {
-        flexDirection: "row",
-        gap: 16,
-        marginTop: 20,
-        paddingTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: colors.border,
-      },
-      timeInputContainer: {
-        flex: 1,
-      },
-      timeLabel: {
-        fontSize: 12,
-        fontWeight: "600",
-        color: colors.mutedForeground,
-        marginBottom: 8,
-        textAlign: "center",
-      } as TextStyle,
-      timeScrollView: {
-        height: 150,
-      },
-      timeOption: {
-        paddingVertical: 12,
-        alignItems: "center",
-      } as ViewStyle,
-      timeText: {
-        fontSize: 14,
-        color: colors.mutedForeground,
-      } as TextStyle,
-      timeTextSelected: {
-        fontSize: 16,
-        fontWeight: "700",
-        color: colors.primary,
-      } as TextStyle,
+       title: {
+         ...typography.heading.sm,
+         color: colors.foreground,
+         letterSpacing: 0.3,
+       } as TextStyle,
+       monthYear: {
+         ...typography.heading.md,
+         color: colors.mutedForeground,
+         marginBottom: 16,
+         textAlign: "center",
+       } as TextStyle,
+       navigationButton: {
+         padding: 8,
+         borderRadius: 8,
+         backgroundColor: colors.muted,
+       } as ViewStyle,
+       navigationText: {
+         ...typography.heading.md,
+         color: colors.foreground,
+       } as TextStyle,
+       weekdayContainer: {
+         flexDirection: "row",
+         marginBottom: 12,
+       },
+       weekday: {
+         flex: 1,
+         textAlign: "center",
+         ...typography.caption.sm,
+         color: colors.mutedForeground,
+         paddingVertical: 8,
+       } as TextStyle,
+       calendarRow: {
+         flexDirection: "row",
+         marginBottom: 8,
+       },
+       dayButton: {
+         flex: 1,
+         aspectRatio: 1,
+         justifyContent: "center",
+         alignItems: "center",
+         borderRadius: 8,
+         backgroundColor: colors.background,
+       } as ViewStyle,
+       dayButtonSelected: {
+         backgroundColor: colors.primary,
+       } as ViewStyle,
+       dayButtonDisabled: {
+         opacity: 0.3,
+       } as ViewStyle,
+       dayText: {
+         ...typography.body.md,
+         color: colors.foreground,
+       } as TextStyle,
+       dayTextSelected: {
+         color: colors.primaryForeground,
+         fontWeight: "700",
+       } as TextStyle,
+       timeContainer: {
+         flexDirection: "row",
+         gap: 16,
+         marginTop: 20,
+         paddingTop: 20,
+         borderTopWidth: 1,
+         borderTopColor: colors.border,
+       },
+       timeInputContainer: {
+         flex: 1,
+       },
+       timeLabel: {
+         ...typography.caption.sm,
+         color: colors.mutedForeground,
+         marginBottom: 8,
+         textAlign: "center",
+       } as TextStyle,
+       timeScrollView: {
+         height: 150,
+       },
+       timeOption: {
+         paddingVertical: 12,
+         alignItems: "center",
+       } as ViewStyle,
+       timeText: {
+         ...typography.body.md,
+         color: colors.mutedForeground,
+       } as TextStyle,
+       timeTextSelected: {
+         ...typography.display.sm,
+         color: colors.primary,
+       } as TextStyle,
       buttonContainer: {
         flexDirection: "row",
         gap: 12,

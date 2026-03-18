@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface TooltipProps {
   /** Tooltip text */
@@ -56,12 +57,11 @@ const Tooltip = React.forwardRef<View, TooltipProps>(
         marginLeft: position === "right" ? 8 : 0,
         zIndex: 1000,
       },
-      tooltipText: {
-        fontSize: 12,
-        color: defaultTextColor,
-        fontWeight: "500",
-        textAlign: "center",
-      },
+       tooltipText: {
+         ...typography.caption.sm,
+         color: defaultTextColor,
+         textAlign: "center",
+       },
       arrow: {
         width: 0,
         height: 0,

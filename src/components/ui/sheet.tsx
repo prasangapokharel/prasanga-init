@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 import Button from "./button";
 
 interface SheetProps {
@@ -124,23 +125,22 @@ const Sheet = React.forwardRef<View, SheetProps>(
         borderBottomWidth: 1,
         borderBottomColor: colors.border,
       },
-      title: {
-        fontSize: 18,
-        fontWeight: "700",
-        color: colors.foreground,
-        flex: 1,
-      },
-      content: {
-        flex: 1,
-        paddingVertical: 16,
-      },
-      closeButton: {
-        padding: 8,
-      },
-      closeButtonText: {
-        fontSize: 24,
-        color: colors.foreground,
-      },
+       title: {
+         ...typography.heading.sm,
+         color: colors.foreground,
+         flex: 1,
+       },
+       content: {
+         flex: 1,
+         paddingVertical: 16,
+       },
+       closeButton: {
+         padding: 8,
+       },
+       closeButtonText: {
+         ...typography.heading.xs,
+         color: colors.foreground,
+       },
       dragHandle: {
         width: 40,
         height: 4,

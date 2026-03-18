@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface StepperProps {
   /** Current value */
@@ -58,50 +59,48 @@ const Stepper = React.forwardRef<View, StepperProps>(
     const buttonSize = buttonSizes[size];
     const textSize = textSizes[size];
 
-    const styles = StyleSheet.create({
-      container: {
-        marginBottom: 12,
-        opacity: disabled ? 0.5 : 1,
-      },
-      labelText: {
-        fontSize: 14,
-        fontWeight: "600",
-        color: colors.foreground,
-        marginBottom: 8,
-      },
-      stepperContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-        alignSelf: "flex-start",
-      },
-      button: {
-        width: buttonSize,
-        height: buttonSize,
-        borderRadius: 6,
-        backgroundColor: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: colors.primary,
-      },
-      buttonText: {
-        fontSize: textSize * 1.2,
-        color: colors.primaryForeground,
-        fontWeight: "bold",
-      },
-      valueContainer: {
-        minWidth: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingHorizontal: 8,
-      },
-      value: {
-        fontSize: textSize,
-        fontWeight: "600",
-        color: colors.foreground,
-      },
-    });
+     const styles = StyleSheet.create({
+       container: {
+         marginBottom: 12,
+         opacity: disabled ? 0.5 : 1,
+       },
+       labelText: {
+         ...typography.label.md,
+         color: colors.foreground,
+         marginBottom: 8,
+       },
+       stepperContainer: {
+         flexDirection: "row",
+         alignItems: "center",
+         gap: 8,
+         alignSelf: "flex-start",
+       },
+       button: {
+         width: buttonSize,
+         height: buttonSize,
+         borderRadius: 6,
+         backgroundColor: colors.primary,
+         justifyContent: "center",
+         alignItems: "center",
+         borderWidth: 1,
+         borderColor: colors.primary,
+       },
+       buttonText: {
+         ...typography.body.md,
+         fontSize: textSize * 1.2,
+         color: colors.primaryForeground,
+       },
+       valueContainer: {
+         minWidth: 50,
+         alignItems: "center",
+         justifyContent: "center",
+         paddingHorizontal: 8,
+       },
+       value: {
+         ...typography.label.md,
+         color: colors.foreground,
+       },
+     });
 
     const handleIncrement = () => {
       if (!disabled && value < max) {

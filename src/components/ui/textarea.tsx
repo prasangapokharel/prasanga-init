@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface TextareaProps extends TextInputProps {
   /** Label text */
@@ -42,44 +43,42 @@ const Textarea = React.forwardRef<TextInput, TextareaProps>(
   ) => {
     const { colors } = useTheme();
 
-    const styles = StyleSheet.create({
-      container: {
-        marginBottom: 12,
-      },
-      labelText: {
-        fontSize: 14,
-        fontWeight: "600",
-        color: colors.foreground,
-        marginBottom: 6,
-      },
-      textareaContainer: {
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: hasError || error ? colors.destructive : colors.inputBorder,
-        backgroundColor: colors.background,
-        minHeight: rows * 24 + 24,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-      },
-      textarea: {
-        fontSize: 14,
-        color: colors.foreground,
-        textAlignVertical: "top",
-        padding: 0,
-        fontFamily: "System",
-      },
-      errorText: {
-        fontSize: 12,
-        color: colors.destructive,
-        marginTop: 4,
-        fontWeight: "500",
-      },
-      helperText: {
-        fontSize: 12,
-        color: colors.mutedForeground,
-        marginTop: 4,
-      },
-    });
+     const styles = StyleSheet.create({
+       container: {
+         marginBottom: 12,
+       },
+       labelText: {
+         ...typography.label.md,
+         color: colors.foreground,
+         marginBottom: 6,
+       },
+       textareaContainer: {
+         borderRadius: 8,
+         borderWidth: 1,
+         borderColor: hasError || error ? colors.destructive : colors.inputBorder,
+         backgroundColor: colors.background,
+         minHeight: rows * 24 + 24,
+         paddingHorizontal: 12,
+         paddingVertical: 12,
+       },
+       textarea: {
+         ...typography.body.md,
+         color: colors.foreground,
+         textAlignVertical: "top",
+         padding: 0,
+         fontFamily: "System",
+       },
+       errorText: {
+         ...typography.caption.sm,
+         color: colors.destructive,
+         marginTop: 4,
+       },
+       helperText: {
+         ...typography.caption.sm,
+         color: colors.mutedForeground,
+         marginTop: 4,
+       },
+     });
 
     return (
       <View style={[styles.container, containerStyle]}>

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ViewStyle, StyleSheet } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface ProgressBarProps {
   /** Progress value (0-100) */
@@ -54,30 +55,28 @@ const ProgressBar = React.forwardRef<View, ProgressBarProps>(
         alignItems: labelPosition === "inside" ? "center" : "flex-start",
         marginBottom: labelPosition === "top" ? 8 : 0,
       },
-      label: {
-        fontSize: 12,
-        fontWeight: "600",
-        color: colors.mutedForeground,
-        marginBottom: labelPosition === "top" ? 0 : 4,
-      },
-      barContainer: {
-        height: height,
-        backgroundColor: defaultBackgroundColor,
-        borderRadius: height / 2,
-        overflow: "hidden",
-      },
-      bar: {
-        height: height,
-        backgroundColor: defaultColor,
-        borderRadius: height / 2,
-        width: `${percentage}%`,
-      },
-      percentage: {
-        fontSize: 12,
-        fontWeight: "600",
-        color: labelPosition === "inside" ? colors.primaryForeground : colors.mutedForeground,
-        marginLeft: labelPosition === "right" ? 8 : 0,
-      },
+       label: {
+         ...typography.caption.sm,
+         color: colors.mutedForeground,
+         marginBottom: labelPosition === "top" ? 0 : 4,
+       },
+       barContainer: {
+         height: height,
+         backgroundColor: defaultBackgroundColor,
+         borderRadius: height / 2,
+         overflow: "hidden",
+       },
+       bar: {
+         height: height,
+         backgroundColor: defaultColor,
+         borderRadius: height / 2,
+         width: `${percentage}%`,
+       },
+       percentage: {
+         ...typography.caption.sm,
+         color: labelPosition === "inside" ? colors.primaryForeground : colors.mutedForeground,
+         marginLeft: labelPosition === "right" ? 8 : 0,
+       },
     });
 
     return (

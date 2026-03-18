@@ -73,10 +73,22 @@ const Drawer = React.forwardRef<View, DrawerProps>(
     const getDrawerWidth = () => {
       if (typeof width === "number") return width;
       
+      // Device breakpoints
+      const isSmallDevice = screenWidth < 480;
+      const isMediumDevice = screenWidth >= 480 && screenWidth < 768;
+      const isLargeDevice = screenWidth >= 768;
+      
+      // Responsive max-widths for premium UX
       const sizeMap = {
-        sm: Math.min(280, screenWidth * 0.7),
-        md: Math.min(400, screenWidth * 0.75),
-        lg: Math.min(500, screenWidth * 0.85),
+        sm: isSmallDevice ? Math.min(280, screenWidth * 0.85) : 
+            isMediumDevice ? Math.min(320, screenWidth * 0.7) : 
+            Math.min(400, screenWidth * 0.5),
+        md: isSmallDevice ? Math.min(320, screenWidth * 0.85) : 
+            isMediumDevice ? Math.min(380, screenWidth * 0.75) : 
+            Math.min(450, screenWidth * 0.55),
+        lg: isSmallDevice ? Math.min(360, screenWidth * 0.9) : 
+            isMediumDevice ? Math.min(420, screenWidth * 0.8) : 
+            Math.min(520, screenWidth * 0.6),
       };
       
       if (typeof width === "string" && width.endsWith("%")) {
@@ -104,8 +116,11 @@ const Drawer = React.forwardRef<View, DrawerProps>(
           }
         },
         onPanResponderRelease: (_, { dx, vx }) => {
-          const threshold = drawerWidth * 0.3;
-          if (Math.abs(dx) > threshold || Math.abs(vx) > 0.5) {
+          // Adaptive gesture thresholds based on drawer size
+          const baseThreshold = drawerWidth * 0.25; // More sensitive (was 0.3)
+          const velocityThreshold = 0.4; // More responsive (was 0.5)
+          
+          if (Math.abs(dx) > baseThreshold || Math.abs(vx) > velocityThreshold) {
             Animated.timing(slideAnim, {
               toValue: position === "left" ? -drawerWidth : drawerWidth,
               duration: 300,

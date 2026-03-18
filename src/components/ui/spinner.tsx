@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface SpinnerProps {
   /** Size of spinner */
@@ -55,12 +56,11 @@ const Spinner = React.forwardRef<View, SpinnerProps>(
         alignItems: "center",
         gap: 12,
       },
-      label: {
-        fontSize: 14,
-        color: colors.mutedForeground,
-        fontWeight: "500",
-        marginTop: 8,
-      },
+       label: {
+         ...typography.body.md,
+         color: colors.mutedForeground,
+         marginTop: 8,
+       },
     });
 
     return (

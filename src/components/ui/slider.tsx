@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { PanResponder, Animated } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface SliderProps {
   /** Minimum value */
@@ -55,27 +56,25 @@ const Slider = React.forwardRef<View, SliderProps>(
     const [sliderWidth, setSliderWidth] = useState(0);
     const thumbPosition = (value - min) / (max - min);
 
-    const styles = StyleSheet.create({
-      container: {
-        marginBottom: 12,
-        opacity: disabled ? 0.5 : 1,
-      },
-      labelText: {
-        fontSize: 14,
-        fontWeight: "600",
-        color: colors.foreground,
-        marginBottom: 8,
-      },
-      labelRow: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      },
-      value: {
-        fontSize: 14,
-        fontWeight: "600",
-        color: defaultThumbColor,
-      },
+     const styles = StyleSheet.create({
+       container: {
+         marginBottom: 12,
+         opacity: disabled ? 0.5 : 1,
+       },
+       labelText: {
+         ...typography.label.md,
+         color: colors.foreground,
+         marginBottom: 8,
+       },
+       labelRow: {
+         flexDirection: "row",
+         justifyContent: "space-between",
+         alignItems: "center",
+       },
+       value: {
+         ...typography.label.md,
+         color: defaultThumbColor,
+       },
       sliderContainer: {
         height: 40,
         justifyContent: "center",

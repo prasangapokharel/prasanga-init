@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface TabItem {
   label: string;
@@ -74,11 +75,10 @@ const Tabs = React.forwardRef<View, TabsProps>(
         borderBottomColor: defaultActiveColor,
         backgroundColor: colors.background,
       },
-      tabText: {
-        fontSize: 14,
-        fontWeight: "600",
-        letterSpacing: 0.2,
-      },
+       tabText: {
+         ...typography.label.md,
+         letterSpacing: 0.2,
+       },
       activeTabText: {
         color: defaultActiveColor,
       },

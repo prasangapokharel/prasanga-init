@@ -11,6 +11,7 @@ import {
   LayoutChangeEvent,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface PopoverProps {
   /** Whether popover is visible */
@@ -146,18 +147,16 @@ const Popover = React.forwardRef<View, PopoverProps>(
         top: -8,
         alignSelf: "center",
       } as ViewStyle,
-      title: {
-        fontSize: 16,
-        fontWeight: "700",
-        color: colors.foreground,
-        marginBottom: 8,
-        letterSpacing: 0.3,
-      } as TextStyle,
-      content: {
-        fontSize: 14,
-        color: colors.mutedForeground,
-        lineHeight: 20,
-      } as TextStyle,
+       title: {
+         ...typography.heading.md,
+         color: colors.foreground,
+         marginBottom: 8,
+         letterSpacing: 0.3,
+       } as TextStyle,
+       content: {
+         ...typography.body.md,
+         color: colors.mutedForeground,
+       } as TextStyle,
     });
 
     return (

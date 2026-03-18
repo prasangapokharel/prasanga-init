@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
+import { typography } from "../../lib/typography";
 
 interface AccordionItem {
   id: string | number;
@@ -75,16 +76,14 @@ const Accordion = React.forwardRef<View, AccordionProps>(
         backgroundColor: colors.background,
       },
       headerText: {
-        fontSize: 14,
-        fontWeight: "600",
+        ...typography.heading.lg,
         color: colors.foreground,
         flex: 1,
         letterSpacing: 0.2,
       },
       arrow: {
-        fontSize: 14,
+        ...typography.heading.lg,
         color: colors.primary,
-        fontWeight: "bold",
         marginLeft: 12,
       },
       content: {
@@ -93,9 +92,8 @@ const Accordion = React.forwardRef<View, AccordionProps>(
         backgroundColor: colors.muted,
       },
       contentText: {
-        fontSize: 13,
+        ...typography.body.sm,
         color: colors.mutedForeground,
-        lineHeight: 20,
         letterSpacing: 0.15,
       },
     });
