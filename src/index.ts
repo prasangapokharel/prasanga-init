@@ -37,6 +37,7 @@ export { default as Avatar } from "./components/ui/avatar";
 export { default as Text } from "./components/ui/text";
 export { default as Image } from "./components/ui/image";
 export { default as List } from "./components/ui/list";
+export { default as Table, type TableColumn, type TableRow } from "./components/ui/table";
 
 // ===== Navigation Components =====
 export { default as Tabs } from "./components/ui/tabs";

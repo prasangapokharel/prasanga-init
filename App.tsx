@@ -18,6 +18,7 @@ import Toast from "./src/components/ui/toast";
 import Alert from "./src/components/ui/alert";
 import Badge from "./src/components/ui/badge";
 import Input from "./src/components/ui/input";
+import Table from "./src/components/ui/table";
 
 function AppContent() {
   const { theme, colors, toggleTheme } = useTheme();
@@ -220,7 +221,7 @@ function AppContent() {
     },
   });
 
-  const demos = [
+   const demos = [
     {
       id: "buttons",
       label: "Form Components",
@@ -244,6 +245,12 @@ function AppContent() {
       label: "Display Components",
       title: "Badges",
       description: "Status indicators with multiple variants and styles",
+    },
+    {
+      id: "table",
+      label: "Display Components",
+      title: "Table",
+      description: "Responsive data table with sorting and striping support",
     },
     {
       id: "sheet",
@@ -614,13 +621,49 @@ function AppContent() {
         </View>
       )}
 
-      {/* Date Picker Modal */}
+       {/* Date Picker Modal */}
       <DatePicker
         value={selectedDate}
         onChange={setSelectedDate}
         visible={datePickerVisible}
         onClose={() => setDatePickerVisible(false)}
       />
+
+      {/* Table Demo */}
+      {activeDemo === "table" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Data Table
+          </Text>
+          <Table
+            columns={[
+              { key: "id", title: "ID", width: 60, align: "center" },
+              { key: "name", title: "Name", width: 120 },
+              { key: "status", title: "Status", width: 100 },
+              { key: "value", title: "Value", width: 80, align: "right" },
+            ]}
+            data={[
+              { id: 1, name: "Product A", status: "Active", value: 1200 },
+              { id: 2, name: "Product B", status: "Inactive", value: 800 },
+              { id: 3, name: "Product C", status: "Active", value: 1500 },
+              { id: 4, name: "Product D", status: "Pending", value: 950 },
+              { id: 5, name: "Product E", status: "Active", value: 2100 },
+            ]}
+            striped
+            bordered
+            density="normal"
+            containerStyle={{ marginBottom: 12 }}
+          />
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
 
       {/* Alert Demo */}
       {activeDemo === "alert" && (

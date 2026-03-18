@@ -9,6 +9,8 @@ import {
   Animated,
   PanResponder,
   Dimensions,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
 import Button from "./button";
@@ -38,6 +40,8 @@ interface DrawerProps {
   position?: "left" | "right";
   /** Drawer width */
   width?: number | string;
+  /** Drawer size: sm, md, lg */
+  size?: "sm" | "md" | "lg";
 }
 
 const Drawer = React.forwardRef<View, DrawerProps>(
@@ -51,19 +55,41 @@ const Drawer = React.forwardRef<View, DrawerProps>(
       closeButtonText = "Close",
       showCloseButton = true,
       containerStyle,
-      overlayOpacity = 0.4,
+      overlayOpacity = 0.5,
       closeOnOverlayTap = true,
       position = "left",
       width = "75%",
+      size = "md",
     },
     ref
   ) => {
     const { colors } = useTheme();
     const isDrawerOpen = isOpen ?? visible ?? false;
+    const screenWidth = Dimensions.get("window").width;
+    const screenHeight = Dimensions.get("window").height;
+
+    // Responsive width based on screen size and size prop
+    const getDrawerWidth = () => {
+      if (typeof width === "number") return width;
+      
+      const sizeMap = {
+        sm: Math.min(280, screenWidth * 0.7),
+        md: Math.min(400, screenWidth * 0.75),
+        lg: Math.min(500, screenWidth * 0.85),
+      };
+      
+      if (typeof width === "string" && width.endsWith("%")) {
+        return (parseInt(width) / 100) * screenWidth;
+      }
+      
+      return sizeMap[size];
+    };
+
+    const drawerWidth = getDrawerWidth();
 
     const slideAnim = useRef(
       new Animated.Value(
-        position === "left" ? -Dimensions.get("window").width : Dimensions.get("window").width
+        position === "left" ? -drawerWidth : drawerWidth
       )
     ).current;
 
@@ -77,10 +103,10 @@ const Drawer = React.forwardRef<View, DrawerProps>(
           }
         },
         onPanResponderRelease: (_, { dx, vx }) => {
-          const threshold = Dimensions.get("window").width * 0.3;
+          const threshold = drawerWidth * 0.3;
           if (Math.abs(dx) > threshold || Math.abs(vx) > 0.5) {
             Animated.timing(slideAnim, {
-              toValue: position === "left" ? -Dimensions.get("window").width : Dimensions.get("window").width,
+              toValue: position === "left" ? -drawerWidth : drawerWidth,
               duration: 300,
               useNativeDriver: false,
             }).start(() => onClose());
@@ -113,43 +139,62 @@ const Drawer = React.forwardRef<View, DrawerProps>(
       },
       container: {
         backgroundColor: colors.card,
-        width: typeof width === "string" 
-          ? width === "100%" 
-            ? "100%"
-            : `${parseInt(width)}%` as any
-          : width,
+        width: drawerWidth,
         height: "100%",
-        paddingHorizontal: 16,
-        paddingVertical: 16,
         borderRightWidth: position === "left" ? 1 : 0,
         borderLeftWidth: position === "right" ? 1 : 0,
         borderRightColor: position === "left" ? colors.border : "transparent",
         borderLeftColor: position === "right" ? colors.border : "transparent",
+        shadowColor: colors.foreground,
+        shadowOffset: { 
+          width: position === "left" ? 4 : -4, 
+          height: 0 
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 8,
+      },
+      safeAreaContainer: {
+        flex: 1,
+        backgroundColor: colors.card,
       },
       header: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingBottom: 16,
+        paddingHorizontal: 20,
+        paddingVertical: 16,
         borderBottomWidth: 1,
         borderBottomColor: colors.border,
-        marginBottom: 16,
+        backgroundColor: colors.card,
+        gap: 12,
       },
       title: {
         fontSize: 18,
         fontWeight: "700",
         color: colors.foreground,
         flex: 1,
+        letterSpacing: -0.3,
       },
       closeButton: {
         padding: 8,
+        borderRadius: 6,
+        backgroundColor: colors.muted,
+        minWidth: 36,
+        height: 36,
+        justifyContent: "center",
+        alignItems: "center",
       },
       closeButtonText: {
-        fontSize: 24,
+        fontSize: 20,
+        fontWeight: "600",
         color: colors.foreground,
       },
       content: {
         flex: 1,
+      },
+      contentScroll: {
+        padding: 20,
       },
     });
 
@@ -181,18 +226,31 @@ const Drawer = React.forwardRef<View, DrawerProps>(
             ]}
             ref={ref}
           >
-            {(title || showCloseButton) && (
-              <View style={styles.header}>
-                <Text style={styles.title}>{title}</Text>
-                {showCloseButton && (
-                  <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                    <Text style={styles.closeButtonText}>×</Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            )}
+            <SafeAreaView style={styles.safeAreaContainer}>
+              {(title || showCloseButton) && (
+                <View style={styles.header}>
+                  <Text style={styles.title}>{title}</Text>
+                  {showCloseButton && (
+                    <TouchableOpacity 
+                      style={styles.closeButton} 
+                      onPress={onClose}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.closeButtonText}>×</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
 
-            <View style={styles.content}>{children}</View>
+              <ScrollView 
+                style={styles.content}
+                contentContainerStyle={styles.contentScroll}
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+              >
+                {children}
+              </ScrollView>
+            </SafeAreaView>
           </Animated.View>
         </TouchableOpacity>
       </Modal>
