@@ -16,7 +16,7 @@ import DatePicker from "./src/components/ui/date-picker";
 import Toast from "./src/components/ui/toast";
 
 export default function App() {
-  const [activeDemo, setActiveDemo] = useState<"sheet" | "drawer" | "popover" | "datepicker" | null>(null);
+  const [activeDemo, setActiveDemo] = useState<"sheet" | "drawer" | "popover" | "datepicker" | "buttons" | "inputs" | "cards" | "badges" | null>(null);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -179,6 +179,34 @@ export default function App() {
       category: "Form Component",
       description: "Interactive calendar with date selection and optional time picker.",
     },
+    {
+      id: "buttons",
+      emoji: "🔘",
+      title: "Buttons",
+      category: "Interactive Component",
+      description: "Multiple button variants (primary, secondary, outline, destructive) with sizes.",
+    },
+    {
+      id: "inputs",
+      emoji: "✏️",
+      title: "Inputs",
+      category: "Form Component",
+      description: "Polished text input with focus states, placeholder, and validation support.",
+    },
+    {
+      id: "cards",
+      emoji: "🎯",
+      title: "Cards",
+      category: "Display Component",
+      description: "Elegant card containers with shadows and professional styling.",
+    },
+    {
+      id: "badges",
+      emoji: "🏷️",
+      title: "Badges",
+      category: "Display Component",
+      description: "Status badges with multiple variants and color options.",
+    },
   ];
 
   return (
@@ -196,8 +224,11 @@ export default function App() {
             Modern React Native Components{"\n"}Built with TypeScript & NativeWind
           </Text>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>✨ v1.2.0 • 34+ Components</Text>
+            <Text style={styles.badgeText}>✨ This is from PrasangaKit • v1.2.0</Text>
           </View>
+          <Text style={{ fontSize: 13, color: "#6b7280", marginTop: 16, textAlign: "center", fontWeight: "500" }}>
+            34+ Production-Ready Components
+          </Text>
         </View>
 
         {/* Demo Components Section */}
@@ -331,6 +362,102 @@ export default function App() {
         }}
         showTime={false}
       />
+
+      {/* Buttons Demo */}
+      {activeDemo === "buttons" && (
+        <Sheet
+          visible={true}
+          onClose={() => setActiveDemo(null)}
+          title="Button Component"
+          showCloseButton
+        >
+          <View style={{ gap: 12 }}>
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              Buttons with multiple variants and sizes for every use case.
+            </Text>
+            <Button variant="primary">Primary Button</Button>
+            <Button variant="secondary">Secondary Button</Button>
+            <Button variant="outline">Outline Button</Button>
+            <Button variant="destructive">Destructive Button</Button>
+          </View>
+        </Sheet>
+      )}
+
+      {/* Inputs Demo */}
+      {activeDemo === "inputs" && (
+        <Sheet
+          visible={true}
+          onClose={() => setActiveDemo(null)}
+          title="Input Component"
+          showCloseButton
+        >
+          <View style={{ gap: 12 }}>
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              Text input with smooth focus states and professional styling.
+            </Text>
+            <Text style={{ fontSize: 12, fontWeight: "600", color: "#9ca3af", marginTop: 8 }}>
+              Try typing below:
+            </Text>
+            <View style={{ height: 40, borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 8, paddingHorizontal: 12, justifyContent: "center" }}>
+              <Text style={{ color: "#6b7280" }}>Focus states • Validation • Placeholders</Text>
+            </View>
+          </View>
+        </Sheet>
+      )}
+
+      {/* Cards Demo */}
+      {activeDemo === "cards" && (
+        <Sheet
+          visible={true}
+          onClose={() => setActiveDemo(null)}
+          title="Card Component"
+          showCloseButton
+        >
+          <View style={{ gap: 12 }}>
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              Elegant card containers with subtle shadows and professional styling.
+            </Text>
+            <View style={{ backgroundColor: "#f9fafb", borderRadius: 8, padding: 12, borderWidth: 1, borderColor: "#e5e7eb" }}>
+              <Text style={{ fontSize: 13, fontWeight: "600", color: "#1f2937", marginBottom: 4 }}>
+                Card Title
+              </Text>
+              <Text style={{ fontSize: 12, color: "#6b7280", lineHeight: 16 }}>
+                Cards are perfect for organizing content with depth and hierarchy.
+              </Text>
+            </View>
+          </View>
+        </Sheet>
+      )}
+
+      {/* Badges Demo */}
+      {activeDemo === "badges" && (
+        <Sheet
+          visible={true}
+          onClose={() => setActiveDemo(null)}
+          title="Badge Component"
+          showCloseButton
+        >
+          <View style={{ gap: 12 }}>
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              Status badges with multiple color variants for visual feedback.
+            </Text>
+            <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+              <View style={{ backgroundColor: "#dcfce7", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
+                <Text style={{ fontSize: 12, color: "#15803d", fontWeight: "600" }}>Success</Text>
+              </View>
+              <View style={{ backgroundColor: "#fee2e2", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
+                <Text style={{ fontSize: 12, color: "#dc2626", fontWeight: "600" }}>Error</Text>
+              </View>
+              <View style={{ backgroundColor: "#dbeafe", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
+                <Text style={{ fontSize: 12, color: "#2563eb", fontWeight: "600" }}>Info</Text>
+              </View>
+              <View style={{ backgroundColor: "#fef3c7", paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4 }}>
+                <Text style={{ fontSize: 12, color: "#d97706", fontWeight: "600" }}>Warning</Text>
+              </View>
+            </View>
+          </View>
+        </Sheet>
+      )}
 
       {/* Toast Notification */}
       {toastVisible && (
