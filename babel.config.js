@@ -5,7 +5,8 @@ module.exports = function (api) {
       "babel-preset-expo",
     ],
     plugins: [
-      "nativewind/babel",
+      // Temporarily disabled NativeWind babel plugin to resolve Metro bundler issue
+      // "nativewind/babel",
     ],
   };
 };
