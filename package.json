@@ -14,7 +14,6 @@
     "tsconfig.json",
     "tailwind.config.js",
     "babel.config.js",
-    "globals.css",
     "app.json",
     "README.md"
   ],
