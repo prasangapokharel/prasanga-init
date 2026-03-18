@@ -1,5 +1,6 @@
 import React from "react";
 import { View, ViewStyle, StyleSheet } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface DividerProps {
   /** Direction */
@@ -18,16 +19,19 @@ const Divider = React.forwardRef<View, DividerProps>(
   (
     {
       direction = "horizontal",
-      color = "#e5e7eb",
+      color,
       thickness = 1,
       margin = 16,
       style,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultColor = color || colors.border;
+
     const styles = StyleSheet.create({
       divider: {
-        backgroundColor: color,
+        backgroundColor: defaultColor,
         ...(direction === "horizontal" && {
           height: thickness,
           width: "100%",

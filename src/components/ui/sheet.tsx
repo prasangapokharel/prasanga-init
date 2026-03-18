@@ -10,11 +10,14 @@ import {
   PanResponder,
   Dimensions,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 import Button from "./button";
 
 interface SheetProps {
-  /** Whether sheet is visible */
-  visible: boolean;
+  /** Whether sheet is visible (alias for isOpen) */
+  visible?: boolean;
+  /** Whether sheet is open */
+  isOpen?: boolean;
   /** Callback when sheet should close */
   onClose: () => void;
   /** Sheet title */
@@ -39,6 +42,7 @@ const Sheet = React.forwardRef<View, SheetProps>(
   (
     {
       visible,
+      isOpen,
       onClose,
       title,
       children,
@@ -51,6 +55,9 @@ const Sheet = React.forwardRef<View, SheetProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const isSheetOpen = isOpen ?? visible ?? false;
+
     const slideAnim = useRef(new Animated.Value(Dimensions.get("window").height)).current;
     const panResponder = useRef(
       PanResponder.create({
@@ -80,14 +87,14 @@ const Sheet = React.forwardRef<View, SheetProps>(
     ).current;
 
     useEffect(() => {
-      if (visible) {
+      if (isSheetOpen) {
         Animated.timing(slideAnim, {
           toValue: 0,
           duration: 400,
           useNativeDriver: false,
         }).start();
       }
-    }, [visible, slideAnim]);
+    }, [isSheetOpen, slideAnim]);
 
     const styles = StyleSheet.create({
       overlay: {
@@ -96,52 +103,59 @@ const Sheet = React.forwardRef<View, SheetProps>(
         justifyContent: "flex-end",
       },
       container: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.card,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        padding: 24,
-        maxHeight: typeof maxHeight === "string" 
-          ? parseInt(maxHeight) 
-          : maxHeight > 1 
-          ? maxHeight 
-          : Dimensions.get("window").height * maxHeight,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-        elevation: 8,
-      } as ViewStyle,
-      handle: {
-        width: 40,
-        height: 4,
-        backgroundColor: "#e5e7eb",
-        borderRadius: 2,
-        alignSelf: "center",
-        marginBottom: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        maxHeight: typeof maxHeight === "number" 
+          ? (maxHeight > 1 
+              ? maxHeight 
+              : Dimensions.get("window").height * maxHeight) as any
+          : maxHeight as any,
+        borderTopWidth: 1,
+        borderTopColor: colors.border,
+      },
+      header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingBottom: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.border,
       },
       title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "700",
-        color: "#1f2937",
-        marginBottom: 16,
-        letterSpacing: 0.3,
+        color: colors.foreground,
+        flex: 1,
       },
       content: {
-        marginBottom: 20,
-        lineHeight: 24,
+        flex: 1,
+        paddingVertical: 16,
       },
-      buttonContainer: {
-        flexDirection: "row",
-        gap: 12,
-        marginTop: 16,
+      closeButton: {
+        padding: 8,
+      },
+      closeButtonText: {
+        fontSize: 24,
+        color: colors.foreground,
+      },
+      dragHandle: {
+        width: 40,
+        height: 4,
+        backgroundColor: colors.border,
+        borderRadius: 2,
+        alignSelf: "center",
+        marginBottom: 8,
       },
     });
 
     return (
       <Modal
-        visible={visible}
+        visible={isSheetOpen}
         transparent
-        animationType="none"
+        animationType="fade"
         onRequestClose={onClose}
       >
         <TouchableOpacity
@@ -149,28 +163,34 @@ const Sheet = React.forwardRef<View, SheetProps>(
           activeOpacity={1}
           onPress={closeOnOverlayTap ? onClose : undefined}
         >
-          <Animated.View
-            ref={ref}
-            style={[
-              styles.container,
-              containerStyle,
-              {
-                transform: [{ translateY: slideAnim }],
-              },
-            ]}
-            {...panResponder.panHandlers}
-          >
-            <View style={styles.handle} />
-            {title && <Text style={styles.title}>{title}</Text>}
-            {children && <View style={styles.content}>{children}</View>}
-            {showCloseButton && (
-              <View style={styles.buttonContainer}>
-                <Button variant="outline" onPress={onClose} fullWidth>
-                  {closeButtonText}
-                </Button>
-              </View>
-            )}
-          </Animated.View>
+          <TouchableOpacity activeOpacity={1}>
+            <Animated.View
+              {...panResponder.panHandlers}
+              style={[
+                styles.container,
+                containerStyle,
+                {
+                  transform: [{ translateY: slideAnim }],
+                },
+              ]}
+              ref={ref}
+            >
+              <View style={styles.dragHandle} />
+
+              {(title || showCloseButton) && (
+                <View style={styles.header}>
+                  <Text style={styles.title}>{title}</Text>
+                  {showCloseButton && (
+                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                      <Text style={styles.closeButtonText}>×</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
+
+              <View style={styles.content}>{children}</View>
+            </Animated.View>
+          </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
     );

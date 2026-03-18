@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface SpinnerProps {
   /** Size of spinner */
@@ -24,13 +25,16 @@ const Spinner = React.forwardRef<View, SpinnerProps>(
   (
     {
       size = "large",
-      color = "#0ea5e9",
+      color,
       label,
       fullScreen = false,
       containerStyle,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultColor = color || colors.primary;
+
     const sizeMap = {
       small: 24 as const,
       medium: 36 as const,
@@ -44,7 +48,7 @@ const Spinner = React.forwardRef<View, SpinnerProps>(
         padding: 16,
         ...(fullScreen && {
           flex: 1,
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          backgroundColor: fullScreen ? colors.background : undefined,
         }),
       },
       content: {
@@ -53,7 +57,7 @@ const Spinner = React.forwardRef<View, SpinnerProps>(
       },
       label: {
         fontSize: 14,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         fontWeight: "500",
         marginTop: 8,
       },
@@ -68,10 +72,10 @@ const Spinner = React.forwardRef<View, SpinnerProps>(
         ]}
       >
         <View style={styles.content}>
-          <ActivityIndicator
-            size={sizeMap[size]}
-            color={color}
-          />
+           <ActivityIndicator
+             size={sizeMap[size]}
+             color={defaultColor}
+           />
           {label && <Text style={styles.label}>{label}</Text>}
         </View>
       </View>

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface CheckboxProps {
   /** Whether checkbox is checked */
@@ -33,10 +34,13 @@ const Checkbox = React.forwardRef<View, CheckboxProps>(
       disabled = false,
       containerStyle,
       size = 20,
-      activeColor = "#0ea5e9",
+      activeColor,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultActiveColor = activeColor || colors.primary;
+
     const styles = StyleSheet.create({
       container: {
         flexDirection: "row",
@@ -49,19 +53,19 @@ const Checkbox = React.forwardRef<View, CheckboxProps>(
         height: size,
         borderRadius: 4,
         borderWidth: 2,
-        borderColor: checked ? activeColor : "#d1d5db",
-        backgroundColor: checked ? activeColor : "#ffffff",
+        borderColor: checked ? defaultActiveColor : colors.inputBorder,
+        backgroundColor: checked ? defaultActiveColor : colors.background,
         justifyContent: "center",
         alignItems: "center",
       },
       checkmark: {
         fontSize: size * 0.6,
-        color: "#ffffff",
+        color: colors.primaryForeground,
         fontWeight: "bold",
       },
       label: {
         fontSize: 14,
-        color: "#1f2937",
+        color: colors.foreground,
         fontWeight: "500",
       },
     });

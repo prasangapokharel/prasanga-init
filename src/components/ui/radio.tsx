@@ -6,6 +6,7 @@ import {
   ViewStyle,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface RadioOption {
   label: string;
@@ -41,10 +42,13 @@ const Radio = React.forwardRef<View, RadioProps>(
       disabled = false,
       containerStyle,
       direction = "column",
-      activeColor = "#0ea5e9",
+      activeColor,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultActiveColor = activeColor || colors.primary;
+
   const styles = StyleSheet.create({
     container: {
       marginBottom: 12,
@@ -53,7 +57,7 @@ const Radio = React.forwardRef<View, RadioProps>(
     labelText: {
       fontSize: 14,
       fontWeight: "600",
-      color: "#1f2937",
+      color: colors.foreground,
       marginBottom: 8,
     },
     optionsContainer: {
@@ -70,7 +74,7 @@ const Radio = React.forwardRef<View, RadioProps>(
       height: 20,
       borderRadius: 10,
       borderWidth: 2,
-      borderColor: "#d1d5db",
+      borderColor: colors.inputBorder,
       justifyContent: "center",
       alignItems: "center",
     },
@@ -78,11 +82,11 @@ const Radio = React.forwardRef<View, RadioProps>(
       width: 8,
       height: 8,
       borderRadius: 4,
-      backgroundColor: activeColor,
+      backgroundColor: defaultActiveColor,
     },
     optionLabel: {
       fontSize: 14,
-      color: "#1f2937",
+      color: colors.foreground,
       fontWeight: "500",
     },
   });
@@ -99,15 +103,15 @@ const Radio = React.forwardRef<View, RadioProps>(
               disabled={disabled}
               activeOpacity={0.7}
             >
-              <View
-                style={[
-                  styles.radioButton,
-                  {
-                    borderColor:
-                      value === opt.value ? activeColor : "#d1d5db",
-                  },
-                ]}
-              >
+                <View
+                 style={[
+                   styles.radioButton,
+                   {
+                     borderColor:
+                       value === opt.value ? defaultActiveColor : colors.inputBorder,
+                   },
+                 ]}
+               >
                 {value === opt.value && <View style={styles.radioDot} />}
               </View>
               <Text style={styles.optionLabel}>{opt.label}</Text>

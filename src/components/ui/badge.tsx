@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ViewStyle, TextStyle, StyleSheet } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 export type BadgeVariant =
   | "default"
@@ -33,13 +34,15 @@ const Badge = React.forwardRef<View, BadgeProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const variantStyles: Record<BadgeVariant, { bg: string; text: string; border: string }> = {
-      default: { bg: "#f5f5f5", text: "#525252", border: "#e8e8e8" },
-      primary: { bg: "#f0f8ff", text: "#052242", border: "#c1e3ff" },
-      secondary: { bg: "#f0fdfa", text: "#023632", border: "#99fbe8" },
-      destructive: { bg: "#fef2f2", text: "#7f1d1d", border: "#fecaca" },
-      success: { bg: "#f0fdf4", text: "#145231", border: "#bbf7d0" },
-      warning: { bg: "#fef7e0", text: "#78350f", border: "#fde047" },
+      default: { bg: colors.muted, text: colors.foreground, border: colors.border },
+      primary: { bg: colors.primaryLight, text: colors.primary, border: colors.primary },
+      secondary: { bg: colors.secondaryLight, text: colors.secondary, border: colors.secondary },
+      destructive: { bg: colors.destructiveLight, text: colors.destructive, border: colors.destructive },
+      success: { bg: colors.successLight, text: colors.success, border: colors.success },
+      warning: { bg: colors.warningLight, text: colors.warning, border: colors.warning },
     };
 
     const selectedVariant = variantStyles[variant];

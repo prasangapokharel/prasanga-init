@@ -10,6 +10,7 @@ import {
   Modal,
 } from "react-native";
 import Button from "./button";
+import { useTheme } from "../../lib/theme-context";
 
 interface DatePickerProps {
   /** Selected date */
@@ -50,6 +51,7 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
     const [selectedDate, setSelectedDate] = useState(value);
     const [selectedHour, setSelectedHour] = useState(value.getHours());
     const [selectedMinute, setSelectedMinute] = useState(value.getMinutes());
@@ -122,7 +124,7 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
         justifyContent: "flex-end",
       },
       container: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         padding: 24,
@@ -141,25 +143,25 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
       title: {
         fontSize: 18,
         fontWeight: "700",
-        color: "#1f2937",
+        color: colors.foreground,
         letterSpacing: 0.3,
       } as TextStyle,
       monthYear: {
         fontSize: 16,
         fontWeight: "600",
-        color: "#4b5563",
+        color: colors.mutedForeground,
         marginBottom: 16,
         textAlign: "center",
       } as TextStyle,
       navigationButton: {
         padding: 8,
         borderRadius: 8,
-        backgroundColor: "#f3f4f6",
+        backgroundColor: colors.muted,
       } as ViewStyle,
       navigationText: {
         fontSize: 18,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
       } as TextStyle,
       weekdayContainer: {
         flexDirection: "row",
@@ -170,7 +172,7 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
         textAlign: "center",
         fontSize: 12,
         fontWeight: "600",
-        color: "#9ca3af",
+        color: colors.mutedForeground,
         paddingVertical: 8,
       } as TextStyle,
       calendarRow: {
@@ -183,10 +185,10 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 8,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
       } as ViewStyle,
       dayButtonSelected: {
-        backgroundColor: "#3b82f6",
+        backgroundColor: colors.primary,
       } as ViewStyle,
       dayButtonDisabled: {
         opacity: 0.3,
@@ -194,10 +196,10 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
       dayText: {
         fontSize: 14,
         fontWeight: "500",
-        color: "#1f2937",
+        color: colors.foreground,
       } as TextStyle,
       dayTextSelected: {
-        color: "#ffffff",
+        color: colors.primaryForeground,
         fontWeight: "700",
       } as TextStyle,
       timeContainer: {
@@ -206,7 +208,7 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
         marginTop: 20,
         paddingTop: 20,
         borderTopWidth: 1,
-        borderTopColor: "#e5e7eb",
+        borderTopColor: colors.border,
       },
       timeInputContainer: {
         flex: 1,
@@ -214,7 +216,7 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
       timeLabel: {
         fontSize: 12,
         fontWeight: "600",
-        color: "#9ca3af",
+        color: colors.mutedForeground,
         marginBottom: 8,
         textAlign: "center",
       } as TextStyle,
@@ -227,12 +229,12 @@ const DatePicker = React.forwardRef<View, DatePickerProps>(
       } as ViewStyle,
       timeText: {
         fontSize: 14,
-        color: "#6b7280",
+        color: colors.mutedForeground,
       } as TextStyle,
       timeTextSelected: {
         fontSize: 16,
         fontWeight: "700",
-        color: "#3b82f6",
+        color: colors.primary,
       } as TextStyle,
       buttonContainer: {
         flexDirection: "row",

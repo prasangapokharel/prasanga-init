@@ -10,11 +10,14 @@ import {
   PanResponder,
   Dimensions,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 import Button from "./button";
 
 interface DrawerProps {
-  /** Whether drawer is visible */
-  visible: boolean;
+  /** Whether drawer is visible (alias for isOpen) */
+  visible?: boolean;
+  /** Whether drawer is open */
+  isOpen?: boolean;
   /** Callback when drawer should close */
   onClose: () => void;
   /** Drawer title */
@@ -41,6 +44,7 @@ const Drawer = React.forwardRef<View, DrawerProps>(
   (
     {
       visible,
+      isOpen,
       onClose,
       title,
       children,
@@ -54,6 +58,9 @@ const Drawer = React.forwardRef<View, DrawerProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const isDrawerOpen = isOpen ?? visible ?? false;
+
     const slideAnim = useRef(
       new Animated.Value(
         position === "left" ? -Dimensions.get("window").width : Dimensions.get("window").width
@@ -70,12 +77,8 @@ const Drawer = React.forwardRef<View, DrawerProps>(
           }
         },
         onPanResponderRelease: (_, { dx, vx }) => {
-          const threshold = Dimensions.get("window").width * 0.2;
-          const shouldClose =
-            (position === "left" && (dx < -threshold || vx < -0.5)) ||
-            (position === "right" && (dx > threshold || vx > 0.5));
-
-          if (shouldClose) {
+          const threshold = Dimensions.get("window").width * 0.3;
+          if (Math.abs(dx) > threshold || Math.abs(vx) > 0.5) {
             Animated.timing(slideAnim, {
               toValue: position === "left" ? -Dimensions.get("window").width : Dimensions.get("window").width,
               duration: 300,
@@ -93,57 +96,68 @@ const Drawer = React.forwardRef<View, DrawerProps>(
     ).current;
 
     useEffect(() => {
-      if (visible) {
+      if (isDrawerOpen) {
         Animated.timing(slideAnim, {
           toValue: 0,
           duration: 400,
           useNativeDriver: false,
         }).start();
       }
-    }, [visible, slideAnim, position]);
+    }, [isDrawerOpen, slideAnim, position]);
 
     const styles = StyleSheet.create({
       overlay: {
         flex: 1,
         backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})`,
-        justifyContent: position === "left" ? "flex-start" : "flex-end",
+        flexDirection: position === "left" ? "row" : "row-reverse",
       },
       container: {
-        backgroundColor: "#ffffff",
-        paddingVertical: 20,
-        paddingHorizontal: 16,
+        backgroundColor: colors.card,
         width: typeof width === "string" 
-          ? width 
+          ? width === "100%" 
+            ? "100%"
+            : `${parseInt(width)}%` as any
           : width,
         height: "100%",
-        shadowColor: "#000",
-        shadowOffset: { width: position === "left" ? 4 : -4, height: 0 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-        elevation: 8,
-      } as ViewStyle,
-      title: {
-        fontSize: 20,
-        fontWeight: "700",
-        color: "#1f2937",
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        borderRightWidth: position === "left" ? 1 : 0,
+        borderLeftWidth: position === "right" ? 1 : 0,
+        borderRightColor: position === "left" ? colors.border : "transparent",
+        borderLeftColor: position === "right" ? colors.border : "transparent",
+      },
+      header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingBottom: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.border,
         marginBottom: 16,
-        letterSpacing: 0.3,
+      },
+      title: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: colors.foreground,
+        flex: 1,
+      },
+      closeButton: {
+        padding: 8,
+      },
+      closeButtonText: {
+        fontSize: 24,
+        color: colors.foreground,
       },
       content: {
-        marginBottom: 20,
-        lineHeight: 24,
-      },
-      buttonContainer: {
-        gap: 12,
-        marginTop: 16,
+        flex: 1,
       },
     });
 
     return (
       <Modal
-        visible={visible}
+        visible={isDrawerOpen}
         transparent
-        animationType="none"
+        animationType="fade"
         onRequestClose={onClose}
       >
         <TouchableOpacity
@@ -151,26 +165,34 @@ const Drawer = React.forwardRef<View, DrawerProps>(
           activeOpacity={1}
           onPress={closeOnOverlayTap ? onClose : undefined}
         >
+          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} />
           <Animated.View
-            ref={ref}
+            {...panResponder.panHandlers}
             style={[
               styles.container,
               containerStyle,
               {
-                transform: [{ translateX: slideAnim }],
+                transform: [
+                  {
+                    translateX: slideAnim,
+                  },
+                ],
               },
             ]}
-            {...panResponder.panHandlers}
+            ref={ref}
           >
-            {title && <Text style={styles.title}>{title}</Text>}
-            {children && <View style={styles.content}>{children}</View>}
-            {showCloseButton && (
-              <View style={styles.buttonContainer}>
-                <Button variant="outline" onPress={onClose} fullWidth>
-                  {closeButtonText}
-                </Button>
+            {(title || showCloseButton) && (
+              <View style={styles.header}>
+                <Text style={styles.title}>{title}</Text>
+                {showCloseButton && (
+                  <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                    <Text style={styles.closeButtonText}>×</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             )}
+
+            <View style={styles.content}>{children}</View>
           </Animated.View>
         </TouchableOpacity>
       </Modal>

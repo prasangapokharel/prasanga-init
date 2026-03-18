@@ -7,6 +7,7 @@ import {
   TextInputProps,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -47,6 +48,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
     const [isFocused, setIsFocused] = React.useState(false);
 
     const sizeStyles: Record<InputSize, number> = {
@@ -68,15 +70,15 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     };
 
     const getBorderColor = () => {
-      if (hasError || error) return "#ef4444";
-      if (isFocused) return "#0e7ae5";
-      return "#e8e8e8";
+      if (hasError || error) return colors.destructive;
+      if (isFocused) return colors.primary;
+      return colors.inputBorder;
     };
 
     const getBackgroundColor = () => {
-      if (isFocused) return "#f0f8ff";
-      if (hasError || error) return "#fef2f2";
-      return "#ffffff";
+      if (isFocused) return colors.primaryLight;
+      if (hasError || error) return colors.destructiveLight;
+      return colors.background;
     };
 
     const styles = StyleSheet.create({
@@ -86,7 +88,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#0a0a0a",
+        color: colors.foreground,
         marginBottom: 8,
         letterSpacing: 0.3,
       },
@@ -100,7 +102,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
         height: sizeStyles[size],
         paddingHorizontal: paddingStyles[size],
         gap: 8,
-        shadowColor: isFocused ? "#0e7ae5" : hasError ? "#ef4444" : "transparent",
+        shadowColor: isFocused ? colors.primary : hasError ? colors.destructive : "transparent",
         shadowOffset: { width: 0, height: isFocused ? 4 : 2 },
         shadowOpacity: isFocused ? 0.12 : hasError ? 0.08 : 0,
         shadowRadius: isFocused ? 8 : 4,
@@ -109,20 +111,20 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
       input: {
         flex: 1,
         fontSize: textSizeStyles[size],
-        color: "#0a0a0a",
+        color: colors.foreground,
         padding: 0,
         fontFamily: "System",
       },
       errorText: {
         fontSize: 12,
-        color: "#ef4444",
+        color: colors.destructive,
         marginTop: 6,
         fontWeight: "500",
         letterSpacing: 0.2,
       },
       helperText: {
         fontSize: 12,
-        color: "#737373",
+        color: colors.mutedForeground,
         marginTop: 6,
         letterSpacing: 0.2,
       },
@@ -140,14 +142,14 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
         <View style={styles.inputContainer}>
           {leftElement && <View style={styles.leftElement}>{leftElement}</View>}
           <TextInput
-            ref={ref}
-            style={styles.input}
-            placeholder={placeholder}
-            placeholderTextColor="#a1a1a1"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            {...props}
-          />
+             ref={ref}
+             style={styles.input}
+             placeholder={placeholder}
+             placeholderTextColor={colors.mutedForeground}
+             onFocus={() => setIsFocused(true)}
+             onBlur={() => setIsFocused(false)}
+             {...props}
+           />
           {rightElement && (
             <View style={styles.rightElement}>{rightElement}</View>
           )}

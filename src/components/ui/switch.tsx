@@ -6,6 +6,7 @@ import {
   ViewStyle,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface SwitchProps {
   /** Whether switch is ON */
@@ -33,13 +34,17 @@ const Switch = React.forwardRef<View, SwitchProps>(
       onValueChange,
       disabled = false,
       containerStyle,
-      activeColor = "#0e7ae5",
-      inactiveColor = "#e8e8e8",
+      activeColor,
+      inactiveColor,
       width = 52,
       height = 32,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultActiveColor = activeColor || colors.primary;
+    const defaultInactiveColor = inactiveColor || colors.muted;
+
     const translateX = React.useRef(
       new Animated.Value(value ? width - height : 0)
     ).current;
@@ -60,10 +65,10 @@ const Switch = React.forwardRef<View, SwitchProps>(
         width: width,
         height: height,
         borderRadius: height / 2,
-        backgroundColor: value ? activeColor : inactiveColor,
+        backgroundColor: value ? defaultActiveColor : defaultInactiveColor,
         padding: 2,
         justifyContent: "center",
-        shadowColor: value ? activeColor : "#000",
+        shadowColor: value ? defaultActiveColor : "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: value ? 0.15 : 0.05,
         shadowRadius: value ? 6 : 3,
@@ -73,7 +78,7 @@ const Switch = React.forwardRef<View, SwitchProps>(
         width: height - 4,
         height: height - 4,
         borderRadius: (height - 4) / 2,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.12,

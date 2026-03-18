@@ -7,6 +7,7 @@ import {
   Image as RNImage,
   ImageSourcePropType,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface AvatarProps {
   /** Source for the image */
@@ -29,18 +30,23 @@ const Avatar = React.forwardRef<View, AvatarProps>(
       source,
       size = 40,
       initials = "A",
-      backgroundColor = "#0ea5e9",
-      textColor = "#ffffff",
+      backgroundColor,
+      textColor,
       style,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    
+    const defaultBgColor = backgroundColor || colors.primary;
+    const defaultTextColor = textColor || colors.primaryForeground;
+
     const styles = StyleSheet.create({
       avatar: {
         width: size,
         height: size,
         borderRadius: size / 2,
-        backgroundColor: backgroundColor,
+        backgroundColor: defaultBgColor,
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",
@@ -53,7 +59,7 @@ const Avatar = React.forwardRef<View, AvatarProps>(
       initials: {
         fontSize: size * 0.4,
         fontWeight: "700",
-        color: textColor,
+        color: defaultTextColor,
       },
     });
 

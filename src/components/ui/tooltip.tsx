@@ -6,6 +6,7 @@ import {
   ViewStyle,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface TooltipProps {
   /** Tooltip text */
@@ -28,12 +29,16 @@ const Tooltip = React.forwardRef<View, TooltipProps>(
       text,
       children,
       position = "top",
-      backgroundColor = "#1f2937",
-      textColor = "#ffffff",
+      backgroundColor,
+      textColor,
       containerStyle,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultBgColor = backgroundColor || colors.foreground;
+    const defaultTextColor = textColor || colors.primaryForeground;
+
     const [visible, setVisible] = useState(false);
 
     const styles = StyleSheet.create({
@@ -41,7 +46,7 @@ const Tooltip = React.forwardRef<View, TooltipProps>(
         position: "relative",
       },
       tooltip: {
-        backgroundColor: backgroundColor,
+        backgroundColor: defaultBgColor,
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 6,
@@ -53,7 +58,7 @@ const Tooltip = React.forwardRef<View, TooltipProps>(
       },
       tooltipText: {
         fontSize: 12,
-        color: textColor,
+        color: defaultTextColor,
         fontWeight: "500",
         textAlign: "center",
       },
@@ -66,7 +71,7 @@ const Tooltip = React.forwardRef<View, TooltipProps>(
         borderTopWidth: 6,
         borderLeftColor: "transparent",
         borderRightColor: "transparent",
-        borderTopColor: backgroundColor,
+        borderTopColor: defaultBgColor,
         alignSelf: "center",
         marginTop: position === "top" ? -2 : 0,
         marginBottom: position === "bottom" ? 0 : 0,

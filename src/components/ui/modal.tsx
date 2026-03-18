@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from "react-native";
 import Button from "./button";
+import { useTheme } from "../../lib/theme-context";
 
 interface ModalComponentProps {
   /** Whether modal is visible */
@@ -45,6 +46,8 @@ const ModalComponent = React.forwardRef<View, ModalComponentProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const styles = StyleSheet.create({
       overlay: {
         flex: 1,
@@ -53,7 +56,7 @@ const ModalComponent = React.forwardRef<View, ModalComponentProps>(
         alignItems: "center",
       },
       container: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         borderRadius: 12,
         padding: 24,
         width: "85%",
@@ -67,7 +70,7 @@ const ModalComponent = React.forwardRef<View, ModalComponentProps>(
       title: {
         fontSize: 20,
         fontWeight: "700",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 16,
         letterSpacing: 0.3,
       },

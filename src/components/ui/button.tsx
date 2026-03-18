@@ -8,6 +8,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 export type ButtonVariant =
   | "default"
@@ -42,6 +43,8 @@ interface ButtonProps {
   rightIcon?: React.ReactNode;
   /** Full width button */
   fullWidth?: boolean;
+  /** Alias for containerStyle */
+  style?: ViewStyle;
 }
 
 const Button = React.forwardRef<View, ButtonProps>(
@@ -61,136 +64,93 @@ const Button = React.forwardRef<View, ButtonProps>(
     },
     ref
   ) => {
-    // Enhanced size styles with premium spacing
+    const { colors } = useTheme();
+
     const sizeStyles: Record<ButtonSize, ViewStyle> = {
       sm: { paddingHorizontal: 12, paddingVertical: 8, minHeight: 32 },
       md: { paddingHorizontal: 16, paddingVertical: 12, minHeight: 40 },
       lg: { paddingHorizontal: 24, paddingVertical: 16, minHeight: 48 },
     };
 
-    // Premium variant styles with enhanced shadows and gradients
     const variantStyles: Record<ButtonVariant, ViewStyle> = {
-      default: { 
-        backgroundColor: "#f5f5f5", 
-        borderWidth: 1, 
-        borderColor: "#e8e8e8",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.04,
-        shadowRadius: 4,
-        elevation: 1,
+      default: {
+        backgroundColor: colors.muted,
+        borderWidth: 1,
+        borderColor: colors.border,
       },
-      primary: { 
-        backgroundColor: "#0e7ae5",
-        shadowColor: "#0e7ae5",
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.25,
-        shadowRadius: 12,
-        elevation: 5,
+      primary: {
+        backgroundColor: colors.primary,
       },
-      secondary: { 
-        backgroundColor: "#14b8a6",
-        shadowColor: "#14b8a6",
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.25,
-        shadowRadius: 12,
-        elevation: 5,
+      secondary: {
+        backgroundColor: colors.secondary,
       },
-      outline: { 
-        borderWidth: 2, 
-        borderColor: "#0e7ae5", 
-        backgroundColor: "#f0f8ff",
-        shadowColor: "transparent",
-      },
-      ghost: { 
+      outline: {
         backgroundColor: "transparent",
-        shadowColor: "transparent",
+        borderWidth: 1,
+        borderColor: colors.border,
       },
-      destructive: { 
-        backgroundColor: "#ef4444",
-        shadowColor: "#ef4444",
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.25,
-        shadowRadius: 12,
-        elevation: 5,
+      ghost: {
+        backgroundColor: "transparent",
+      },
+      destructive: {
+        backgroundColor: colors.destructive,
       },
     };
 
-    // Enhanced text color variants
-    const textColorVariants: Record<ButtonVariant, string> = {
-      default: "#242424",
-      primary: "#ffffff",
-      secondary: "#ffffff",
-      outline: "#0e7ae5",
-      ghost: "#0a0a0a",
-      destructive: "#ffffff",
+    const variantTextColors: Record<ButtonVariant, string> = {
+      default: colors.foreground,
+      primary: colors.primaryForeground,
+      secondary: colors.secondaryForeground,
+      outline: colors.foreground,
+      ghost: colors.foreground,
+      destructive: colors.destructiveForeground,
     };
 
-    // Text size styles with better typography
-    const textSizeStyles: Record<ButtonSize, number> = {
-      sm: 13,
-      md: 15,
-      lg: 16,
+    const sizeTextStyles: Record<ButtonSize, TextStyle> = {
+      sm: { fontSize: 12, fontWeight: "600" },
+      md: { fontSize: 14, fontWeight: "600" },
+      lg: { fontSize: 16, fontWeight: "700" },
     };
-
-    const textWeightStyles: Record<ButtonSize, "600" | "700"> = {
-      sm: "600",
-      md: "600",
-      lg: "700",
-    };
-
-    const styles = StyleSheet.create({
-      container: {
-        ...sizeStyles[size],
-        ...variantStyles[variant],
-        borderRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        opacity: disabled || isLoading ? 0.65 : 1,
-        width: fullWidth ? "100%" : "auto",
-      },
-      text: {
-        fontSize: textSizeStyles[size],
-        color: textColorVariants[variant],
-        fontWeight: textWeightStyles[size],
-        letterSpacing: 0.25,
-      },
-      row: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-      },
-    });
 
     return (
       <TouchableOpacity
         ref={ref}
         onPress={onPress}
         disabled={disabled || isLoading}
-        activeOpacity={disabled || isLoading ? 1 : 0.75}
-        style={[styles.container, containerStyle]}
+        activeOpacity={0.7}
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 8,
+            opacity: disabled ? 0.5 : 1,
+          },
+          sizeStyles[size],
+          variantStyles[variant],
+          fullWidth && { alignSelf: "stretch" },
+          containerStyle,
+        ]}
       >
-        <View style={styles.row}>
-          {leftIcon && !isLoading ? <View>{leftIcon}</View> : null}
-          {isLoading && (
-            <ActivityIndicator
-              size="small"
-              color={
-                variant === "primary" || variant === "secondary" || variant === "destructive"
-                  ? "#fff"
-                  : variant === "outline"
-                  ? "#0e7ae5"
-                  : "#242424"
-              }
-            />
-          )}
-          <Text style={[styles.text, textStyle]}>
-            {typeof children === "string" ? children : ""}
-          </Text>
-          {rightIcon && !isLoading ? <View>{rightIcon}</View> : null}
-        </View>
+        {isLoading ? (
+          <ActivityIndicator color={variantTextColors[variant]} size="small" />
+        ) : (
+          <>
+            {leftIcon && <View style={{ marginRight: 8 }}>{leftIcon}</View>}
+            <Text
+              style={[
+                {
+                  color: variantTextColors[variant],
+                },
+                sizeTextStyles[size],
+                textStyle,
+              ]}
+            >
+              {children}
+            </Text>
+            {rightIcon && <View style={{ marginLeft: 8 }}>{rightIcon}</View>}
+          </>
+        )}
       </TouchableOpacity>
     );
   }

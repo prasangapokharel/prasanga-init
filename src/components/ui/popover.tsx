@@ -10,6 +10,7 @@ import {
   Dimensions,
   LayoutChangeEvent,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface PopoverProps {
   /** Whether popover is visible */
@@ -60,6 +61,7 @@ const Popover = React.forwardRef<View, PopoverProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
     const [triggerLayout, setTriggerLayout] = useState<TriggerLayout | null>(null);
     const triggerRef = useRef<View>(null);
 
@@ -112,7 +114,7 @@ const Popover = React.forwardRef<View, PopoverProps>(
       },
       popover: {
         position: "absolute",
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         borderRadius: 12,
         padding: 16,
         width: 250,
@@ -131,7 +133,7 @@ const Popover = React.forwardRef<View, PopoverProps>(
         backgroundColor: "transparent",
         borderLeftColor: "transparent",
         borderRightColor: "transparent",
-        borderBottomColor: "#ffffff",
+        borderBottomColor: colors.background,
         borderLeftWidth: 8,
         borderRightWidth: 8,
         borderBottomWidth: 8,
@@ -147,13 +149,13 @@ const Popover = React.forwardRef<View, PopoverProps>(
       title: {
         fontSize: 16,
         fontWeight: "700",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 8,
         letterSpacing: 0.3,
       } as TextStyle,
       content: {
         fontSize: 14,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         lineHeight: 20,
       } as TextStyle,
     });

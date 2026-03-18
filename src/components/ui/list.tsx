@@ -7,6 +7,7 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface ListItem {
   id: string | number;
@@ -37,13 +38,15 @@ const List = React.forwardRef<View, ListProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const styles = StyleSheet.create({
       container: {
         borderRadius: 8,
         overflow: "hidden",
         borderWidth: 1,
-        borderColor: "#e5e7eb",
-        backgroundColor: "#ffffff",
+        borderColor: colors.border,
+        backgroundColor: colors.background,
       },
       item: {
         flexDirection: "row",
@@ -58,16 +61,16 @@ const List = React.forwardRef<View, ListProps>(
       title: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 4,
       },
       subtitle: {
         fontSize: 12,
-        color: "#6b7280",
+        color: colors.mutedForeground,
       },
       separator: {
         height: 1,
-        backgroundColor: "#f3f4f6",
+        backgroundColor: colors.muted,
       },
       rightElement: {
         marginLeft: 12,

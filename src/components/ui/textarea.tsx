@@ -7,6 +7,7 @@ import {
   TextInputProps,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface TextareaProps extends TextInputProps {
   /** Label text */
@@ -39,6 +40,8 @@ const Textarea = React.forwardRef<TextInput, TextareaProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const styles = StyleSheet.create({
       container: {
         marginBottom: 12,
@@ -46,34 +49,34 @@ const Textarea = React.forwardRef<TextInput, TextareaProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 6,
       },
       textareaContainer: {
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: hasError || error ? "#ef4444" : "#d1d5db",
-        backgroundColor: "#ffffff",
+        borderColor: hasError || error ? colors.destructive : colors.inputBorder,
+        backgroundColor: colors.background,
         minHeight: rows * 24 + 24,
         paddingHorizontal: 12,
         paddingVertical: 12,
       },
       textarea: {
         fontSize: 14,
-        color: "#1f2937",
+        color: colors.foreground,
         textAlignVertical: "top",
         padding: 0,
         fontFamily: "System",
       },
       errorText: {
         fontSize: 12,
-        color: "#ef4444",
+        color: colors.destructive,
         marginTop: 4,
         fontWeight: "500",
       },
       helperText: {
         fontSize: 12,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         marginTop: 4,
       },
     });
@@ -83,14 +86,14 @@ const Textarea = React.forwardRef<TextInput, TextareaProps>(
         {label && <Text style={styles.labelText}>{label}</Text>}
         <View style={styles.textareaContainer}>
           <TextInput
-            ref={ref}
-            style={styles.textarea}
-            placeholder={placeholder}
-            placeholderTextColor="#9ca3af"
-            multiline
-            numberOfLines={rows}
-            {...props}
-          />
+             ref={ref}
+             style={styles.textarea}
+             placeholder={placeholder}
+             placeholderTextColor={colors.mutedForeground}
+             multiline
+             numberOfLines={rows}
+             {...props}
+           />
         </View>
         {error && <Text style={styles.errorText}>{error}</Text>}
         {!error && helperText && (

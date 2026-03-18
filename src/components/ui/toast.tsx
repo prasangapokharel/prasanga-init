@@ -7,12 +7,17 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 export type ToastType = "success" | "error" | "info" | "warning";
 
 interface ToastProps {
-  /** Toast message */
-  message: string;
+  /** Toast message (alias for message) */
+  message?: string;
+  /** Toast message (for backward compatibility with visible prop) */
+  msg?: string;
+  /** Whether toast is visible */
+  visible?: boolean;
   /** Toast type */
   type?: ToastType;
   /** Duration in milliseconds (0 = no auto-dismiss) */
@@ -29,6 +34,8 @@ const Toast = React.forwardRef<View, ToastProps>(
   (
     {
       message,
+      msg,
+      visible: visibleProp,
       type = "info",
       duration = 3000,
       onDismiss,
@@ -37,10 +44,17 @@ const Toast = React.forwardRef<View, ToastProps>(
     },
     ref
   ) => {
-    const [visible, setVisible] = useState(true);
+    const { colors } = useTheme();
+    const [visible, setVisible] = useState(visibleProp ?? true);
     const slideAnim = React.useRef(new Animated.Value(-100)).current;
 
     useEffect(() => {
+      setVisible(visibleProp ?? true);
+    }, [visibleProp]);
+
+    useEffect(() => {
+      if (!visible) return;
+
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 300,
@@ -56,7 +70,7 @@ const Toast = React.forwardRef<View, ToastProps>(
       }
 
       return undefined;
-    }, []);
+    }, [visible]);
 
     const handleDismiss = () => {
       Animated.timing(slideAnim, {
@@ -73,53 +87,77 @@ const Toast = React.forwardRef<View, ToastProps>(
       return null;
     }
 
-    const typeStyles: Record<ToastType, { bg: string; text: string }> = {
-      success: { bg: "#dcfce7", text: "#166534" },
-      error: { bg: "#fee2e2", text: "#991b1b" },
-      info: { bg: "#dbeafe", text: "#0369a1" },
-      warning: { bg: "#fef3c7", text: "#92400e" },
+    const toastMessage = message || msg || "Message";
+
+    const typeStyles: Record<
+      ToastType,
+      { bg: string; text: string; indicator: string }
+    > = {
+      success: {
+        bg: colors.successLight,
+        text: colors.success,
+        indicator: colors.success,
+      },
+      error: {
+        bg: colors.destructiveLight,
+        text: colors.destructive,
+        indicator: colors.destructive,
+      },
+      info: {
+        bg: colors.primaryLight,
+        text: colors.primary,
+        indicator: colors.primary,
+      },
+      warning: {
+        bg: colors.warningLight,
+        text: colors.warning,
+        indicator: colors.warning,
+      },
     };
 
-    const selectedStyle = typeStyles[type];
+    const typeStyle = typeStyles[type];
 
     const styles = StyleSheet.create({
-      animatedContainer: {
+      container: {
         position: "absolute",
-        [position === "top" ? "top" : "bottom"]: 20,
+        [position]: 20,
         left: 16,
         right: 16,
-        zIndex: 9999,
-      },
-      toast: {
-        backgroundColor: selectedStyle.bg,
-        borderLeftWidth: 4,
-        borderLeftColor: selectedStyle.text,
+        backgroundColor: typeStyle.bg,
         borderRadius: 8,
+        borderLeftWidth: 3,
+        borderLeftColor: typeStyle.indicator,
+        paddingHorizontal: 14,
         paddingVertical: 12,
-        paddingHorizontal: 16,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowColor: typeStyle.indicator,
+        shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 2,
+        zIndex: 999,
+      },
+      content: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      },
+      messageContainer: {
+        flex: 1,
       },
       message: {
-        flex: 1,
-        fontSize: 14,
-        color: selectedStyle.text,
+        fontSize: 13,
         fontWeight: "500",
+        color: typeStyle.text,
+        lineHeight: 19,
       },
       closeButton: {
-        padding: 4,
+        padding: 6,
         marginLeft: 12,
       },
-      closeText: {
-        fontSize: 18,
-        color: selectedStyle.text,
-        fontWeight: "bold",
+      closeIcon: {
+        fontSize: 16,
+        color: typeStyle.indicator,
+        fontWeight: "600",
       },
     });
 
@@ -127,20 +165,21 @@ const Toast = React.forwardRef<View, ToastProps>(
       <Animated.View
         ref={ref}
         style={[
-          styles.animatedContainer,
+          styles.container,
+          containerStyle,
           {
             transform: [{ translateY: slideAnim }],
           },
-          containerStyle,
         ]}
       >
-        <View style={styles.toast}>
-          <Text style={styles.message}>{message}</Text>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={handleDismiss}
-          >
-            <Text style={styles.closeText}>✕</Text>
+        <View style={styles.content}>
+          <View style={styles.messageContainer}>
+            <Text style={styles.message} numberOfLines={2}>
+              {toastMessage}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.closeButton} onPress={handleDismiss}>
+            <Text style={styles.closeIcon}>×</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>

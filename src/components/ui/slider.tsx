@@ -7,6 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { PanResponder, Animated } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface SliderProps {
   /** Minimum value */
@@ -42,11 +43,15 @@ const Slider = React.forwardRef<View, SliderProps>(
       disabled = false,
       containerStyle,
       label,
-      trackColor = "#e5e7eb",
-      thumbColor = "#0ea5e9",
+      trackColor,
+      thumbColor,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultTrackColor = trackColor || colors.muted;
+    const defaultThumbColor = thumbColor || colors.primary;
+
     const [sliderWidth, setSliderWidth] = useState(0);
     const thumbPosition = (value - min) / (max - min);
 
@@ -58,7 +63,7 @@ const Slider = React.forwardRef<View, SliderProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 8,
       },
       labelRow: {
@@ -69,7 +74,7 @@ const Slider = React.forwardRef<View, SliderProps>(
       value: {
         fontSize: 14,
         fontWeight: "600",
-        color: thumbColor,
+        color: defaultThumbColor,
       },
       sliderContainer: {
         height: 40,
@@ -78,13 +83,13 @@ const Slider = React.forwardRef<View, SliderProps>(
       },
       track: {
         height: 6,
-        backgroundColor: trackColor,
+        backgroundColor: defaultTrackColor,
         borderRadius: 3,
         position: "relative",
       },
       filledTrack: {
         height: 6,
-        backgroundColor: thumbColor,
+        backgroundColor: defaultThumbColor,
         borderRadius: 3,
         width: `${thumbPosition * 100}%`,
       },
@@ -92,7 +97,7 @@ const Slider = React.forwardRef<View, SliderProps>(
         width: 20,
         height: 20,
         borderRadius: 10,
-        backgroundColor: thumbColor,
+        backgroundColor: defaultThumbColor,
         position: "absolute",
         top: 10,
         left: `${thumbPosition * 100}%`,

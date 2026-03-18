@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ViewStyle, StyleSheet } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface ProgressBarProps {
   /** Progress value (0-100) */
@@ -30,12 +31,16 @@ const ProgressBar = React.forwardRef<View, ProgressBarProps>(
       showLabel = true,
       containerStyle,
       height = 8,
-      color = "#0ea5e9",
-      backgroundColor = "#e5e7eb",
+      color,
+      backgroundColor,
       labelPosition = "top",
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultColor = color || colors.primary;
+    const defaultBackgroundColor = backgroundColor || colors.muted;
+
     const percentage = Math.min(Math.max(value, 0), 100);
 
     const styles = StyleSheet.create({
@@ -52,25 +57,25 @@ const ProgressBar = React.forwardRef<View, ProgressBarProps>(
       label: {
         fontSize: 12,
         fontWeight: "600",
-        color: "#6b7280",
+        color: colors.mutedForeground,
         marginBottom: labelPosition === "top" ? 0 : 4,
       },
       barContainer: {
         height: height,
-        backgroundColor: backgroundColor,
+        backgroundColor: defaultBackgroundColor,
         borderRadius: height / 2,
         overflow: "hidden",
       },
       bar: {
         height: height,
-        backgroundColor: color,
+        backgroundColor: defaultColor,
         borderRadius: height / 2,
         width: `${percentage}%`,
       },
       percentage: {
         fontSize: 12,
         fontWeight: "600",
-        color: labelPosition === "inside" ? "#ffffff" : "#6b7280",
+        color: labelPosition === "inside" ? colors.primaryForeground : colors.mutedForeground,
         marginLeft: labelPosition === "right" ? 8 : 0,
       },
     });

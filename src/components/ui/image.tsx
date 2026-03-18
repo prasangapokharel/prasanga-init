@@ -6,6 +6,7 @@ import {
   Image as RNImage,
   ImageSourcePropType,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface ImageProps {
   /** Image source */
@@ -37,6 +38,8 @@ const Image = React.forwardRef<View, ImageProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const styles = StyleSheet.create({
       container: {
         width: width,
@@ -44,7 +47,7 @@ const Image = React.forwardRef<View, ImageProps>(
         aspectRatio: aspectRatio,
         borderRadius: borderRadius,
         overflow: "hidden",
-        backgroundColor: "#f3f4f6",
+        backgroundColor: colors.muted,
         justifyContent: "center",
         alignItems: "center",
       },

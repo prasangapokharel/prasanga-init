@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ViewStyle, TextStyle, StyleSheet } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 type TextVariant = "h1" | "h2" | "h3" | "h4" | "body" | "small" | "caption";
 type TextColor = "primary" | "secondary" | "muted" | "error" | "success" | "warning";
@@ -31,15 +32,6 @@ const textVariants: Record<TextVariant, TextStyle> = {
   caption: { fontSize: 12, fontWeight: "400", lineHeight: 16, letterSpacing: 0.2 },
 };
 
-const colorMap: Record<TextColor, string> = {
-  primary: "#0e7ae5",
-  secondary: "#14b8a6",
-  muted: "#737373",
-  error: "#ef4444",
-  success: "#22c55e",
-  warning: "#f59e0b",
-};
-
 const TextComponent = React.forwardRef<Text, TextComponentProps>(
   (
     {
@@ -53,6 +45,17 @@ const TextComponent = React.forwardRef<Text, TextComponentProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
+    const colorMap: Record<TextColor, string> = {
+      primary: colors.primary,
+      secondary: colors.secondary,
+      muted: colors.mutedForeground,
+      error: colors.destructive,
+      success: colors.success,
+      warning: colors.warning,
+    };
+
     const baseStyle = textVariants[variant];
     const textColor = colorMap[color as TextColor] || color;
 

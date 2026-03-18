@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ViewStyle, StyleSheet } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface CircularProgressProps {
   /** Progress value (0-100) */
@@ -28,12 +29,16 @@ const CircularProgress = React.forwardRef<View, CircularProgressProps>(
       strokeWidth = 4,
       showPercentage = true,
       containerStyle,
-      color = "#0ea5e9",
-      backgroundColor = "#e5e7eb",
+      color,
+      backgroundColor,
       label,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultColor = color || colors.primary;
+    const defaultBackgroundColor = backgroundColor || colors.muted;
+
     const percentage = Math.min(Math.max(value, 0), 100);
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -57,11 +62,11 @@ const CircularProgress = React.forwardRef<View, CircularProgressProps>(
       percentage: {
         fontSize: 24,
         fontWeight: "700",
-        color: color,
+        color: defaultColor,
       },
       label: {
         fontSize: 12,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         marginTop: 4,
       },
     });
@@ -77,32 +82,32 @@ const CircularProgress = React.forwardRef<View, CircularProgressProps>(
             },
           ]}
         >
-          {/* Background circle */}
-          <View
-            style={{
-              width: radius * 2,
-              height: radius * 2,
-              borderRadius: radius,
-              borderWidth: strokeWidth,
-              borderColor: backgroundColor,
-              position: "absolute",
-            }}
-          />
+           {/* Background circle */}
+           <View
+             style={{
+               width: radius * 2,
+               height: radius * 2,
+               borderRadius: radius,
+               borderWidth: strokeWidth,
+               borderColor: defaultBackgroundColor,
+               position: "absolute",
+             }}
+           />
 
-          {/* Progress arc (simplified as a colored circle) */}
-          <View
-            style={{
-              width: radius * 2,
-              height: radius * 2,
-              borderRadius: radius,
-              borderWidth: strokeWidth,
-              borderColor: color,
-              borderRightColor: backgroundColor,
-              borderBottomColor: backgroundColor,
-              transform: [{ rotate: `${(percentage / 100) * 360}deg` }],
-              position: "absolute",
-            }}
-          />
+           {/* Progress arc (simplified as a colored circle) */}
+           <View
+             style={{
+               width: radius * 2,
+               height: radius * 2,
+               borderRadius: radius,
+               borderWidth: strokeWidth,
+               borderColor: defaultColor,
+               borderRightColor: defaultBackgroundColor,
+               borderBottomColor: defaultBackgroundColor,
+               transform: [{ rotate: `${(percentage / 100) * 360}deg` }],
+               position: "absolute",
+             }}
+           />
 
           {/* Center text */}
           <View style={styles.textContainer}>

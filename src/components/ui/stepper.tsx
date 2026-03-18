@@ -6,6 +6,7 @@ import {
   ViewStyle,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface StepperProps {
   /** Current value */
@@ -40,6 +41,8 @@ const Stepper = React.forwardRef<View, StepperProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
+
     const buttonSizes: Record<"sm" | "md" | "lg", number> = {
       sm: 32,
       md: 40,
@@ -63,7 +66,7 @@ const Stepper = React.forwardRef<View, StepperProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 8,
       },
       stepperContainer: {
@@ -76,15 +79,15 @@ const Stepper = React.forwardRef<View, StepperProps>(
         width: buttonSize,
         height: buttonSize,
         borderRadius: 6,
-        backgroundColor: "#0ea5e9",
+        backgroundColor: colors.primary,
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "#0284c7",
+        borderColor: colors.primary,
       },
       buttonText: {
         fontSize: textSize * 1.2,
-        color: "#ffffff",
+        color: colors.primaryForeground,
         fontWeight: "bold",
       },
       valueContainer: {
@@ -96,7 +99,7 @@ const Stepper = React.forwardRef<View, StepperProps>(
       value: {
         fontSize: textSize,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
       },
     });
 

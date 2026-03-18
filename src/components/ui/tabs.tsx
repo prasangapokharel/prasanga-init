@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface TabItem {
   label: string;
@@ -32,16 +33,20 @@ const Tabs = React.forwardRef<View, TabsProps>(
       tabs,
       defaultActive = 0,
       containerStyle,
-      activeColor = "#0ea5e9",
-      inactiveColor = "#9ca3af",
+      activeColor,
+      inactiveColor,
     },
     ref
   ) => {
+    const { colors } = useTheme();
+    const defaultActiveColor = activeColor || colors.primary;
+    const defaultInactiveColor = inactiveColor || colors.mutedForeground;
+
     const [activeTab, setActiveTab] = useState(defaultActive);
 
     const styles = StyleSheet.create({
       container: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         borderRadius: 8,
         overflow: "hidden",
         shadowColor: "#000",
@@ -53,8 +58,8 @@ const Tabs = React.forwardRef<View, TabsProps>(
       tabBar: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: "#f0f0f0",
-        backgroundColor: "#fafafa",
+        borderBottomColor: colors.border,
+        backgroundColor: colors.muted,
       },
       tab: {
         flex: 1,
@@ -66,8 +71,8 @@ const Tabs = React.forwardRef<View, TabsProps>(
         borderBottomColor: "transparent",
       },
       activeTab: {
-        borderBottomColor: activeColor,
-        backgroundColor: "#ffffff",
+        borderBottomColor: defaultActiveColor,
+        backgroundColor: colors.background,
       },
       tabText: {
         fontSize: 14,
@@ -75,15 +80,15 @@ const Tabs = React.forwardRef<View, TabsProps>(
         letterSpacing: 0.2,
       },
       activeTabText: {
-        color: activeColor,
+        color: defaultActiveColor,
       },
       inactiveTabText: {
-        color: inactiveColor,
+        color: defaultInactiveColor,
       },
       content: {
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
       },
     });
 

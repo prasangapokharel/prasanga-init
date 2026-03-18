@@ -9,6 +9,7 @@ import {
   FlatList,
   TextStyle,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface SelectOption {
   label: string;
@@ -51,6 +52,7 @@ const Select = React.forwardRef<View, SelectProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
 
     const selectedOption = options.find((opt) => opt.value === value);
@@ -84,14 +86,14 @@ const Select = React.forwardRef<View, SelectProps>(
       labelText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         marginBottom: 6,
       },
       selectButton: {
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: error ? "#ef4444" : "#d1d5db",
-        backgroundColor: "#ffffff",
+        borderColor: error ? colors.destructive : colors.inputBorder,
+        backgroundColor: colors.background,
         paddingHorizontal: 12,
         paddingVertical: 12,
         justifyContent: "space-between",
@@ -101,17 +103,17 @@ const Select = React.forwardRef<View, SelectProps>(
       },
       selectText: {
         fontSize: 14,
-        color: selectedOption || selectedOptions.length > 0 ? "#1f2937" : "#9ca3af",
+        color: selectedOption || selectedOptions.length > 0 ? colors.foreground : colors.mutedForeground,
         flex: 1,
       },
       arrow: {
         fontSize: 12,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         marginLeft: 8,
       },
       errorText: {
         fontSize: 12,
-        color: "#ef4444",
+        color: colors.destructive,
         marginTop: 4,
         fontWeight: "500",
       },
@@ -122,7 +124,7 @@ const Select = React.forwardRef<View, SelectProps>(
         alignItems: "center",
       },
       modalContent: {
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
         borderRadius: 12,
         width: "80%",
         maxHeight: 400,
@@ -132,27 +134,27 @@ const Select = React.forwardRef<View, SelectProps>(
         paddingHorizontal: 16,
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderBottomColor: "#f3f4f6",
+        borderBottomColor: colors.muted,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
       },
       optionText: {
         fontSize: 14,
-        color: "#1f2937",
+        color: colors.foreground,
       },
       checkbox: {
         width: 20,
         height: 20,
         borderRadius: 4,
         borderWidth: 2,
-        borderColor: "#d1d5db",
+        borderColor: colors.inputBorder,
         justifyContent: "center",
         alignItems: "center",
       },
       checkmarkText: {
         fontSize: 12,
-        color: "#ffffff",
+        color: colors.primaryForeground,
         fontWeight: "bold",
       },
     });
@@ -197,23 +199,23 @@ const Select = React.forwardRef<View, SelectProps>(
                   >
                     <Text style={styles.optionText}>{item.label}</Text>
                     {multiple && (
-                      <View
-                        style={[
-                          styles.checkbox,
-                          {
-                            backgroundColor: (
-                              value as (string | number)[]
-                            )?.includes(item.value)
-                              ? "#0ea5e9"
-                              : "#ffffff",
-                            borderColor: (
-                              value as (string | number)[]
-                            )?.includes(item.value)
-                              ? "#0ea5e9"
-                              : "#d1d5db",
-                          },
-                        ]}
-                      >
+                       <View
+                         style={[
+                           styles.checkbox,
+                           {
+                             backgroundColor: (
+                               value as (string | number)[]
+                             )?.includes(item.value)
+                               ? colors.primary
+                               : colors.background,
+                             borderColor: (
+                               value as (string | number)[]
+                             )?.includes(item.value)
+                               ? colors.primary
+                               : colors.inputBorder,
+                           },
+                         ]}
+                       >
                         {(value as (string | number)[])?.includes(
                           item.value
                         ) && (

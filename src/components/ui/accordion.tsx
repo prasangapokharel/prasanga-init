@@ -6,6 +6,7 @@ import {
   ViewStyle,
   StyleSheet,
 } from "react-native";
+import { useTheme } from "../../lib/theme-context";
 
 interface AccordionItem {
   id: string | number;
@@ -31,6 +32,7 @@ const Accordion = React.forwardRef<View, AccordionProps>(
     },
     ref
   ) => {
+    const { colors } = useTheme();
     const [expanded, setExpanded] = useState<(string | number)[]>([]);
 
     const toggleItem = (id: string | number) => {
@@ -49,7 +51,7 @@ const Accordion = React.forwardRef<View, AccordionProps>(
       container: {
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: "#f0f0f0",
+        borderColor: colors.border,
         overflow: "hidden",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
@@ -59,7 +61,7 @@ const Accordion = React.forwardRef<View, AccordionProps>(
       },
       item: {
         borderBottomWidth: 1,
-        borderBottomColor: "#f3f4f6",
+        borderBottomColor: colors.border,
       },
       itemLast: {
         borderBottomWidth: 0,
@@ -70,29 +72,29 @@ const Accordion = React.forwardRef<View, AccordionProps>(
         alignItems: "center",
         paddingHorizontal: 16,
         paddingVertical: 14,
-        backgroundColor: "#ffffff",
+        backgroundColor: colors.background,
       },
       headerText: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#1f2937",
+        color: colors.foreground,
         flex: 1,
         letterSpacing: 0.2,
       },
       arrow: {
         fontSize: 14,
-        color: "#0ea5e9",
+        color: colors.primary,
         fontWeight: "bold",
         marginLeft: 12,
       },
       content: {
         paddingHorizontal: 16,
         paddingVertical: 12,
-        backgroundColor: "#fafafa",
+        backgroundColor: colors.muted,
       },
       contentText: {
         fontSize: 13,
-        color: "#6b7280",
+        color: colors.mutedForeground,
         lineHeight: 20,
         letterSpacing: 0.15,
       },
