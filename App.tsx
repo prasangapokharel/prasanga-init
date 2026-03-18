@@ -32,12 +32,21 @@ import List from "./src/components/ui/list";
 import Tabs from "./src/components/ui/tabs";
 import Accordion from "./src/components/ui/accordion";
 import Tooltip from "./src/components/ui/tooltip";
+import Sheet from "./src/components/ui/sheet";
+import Drawer from "./src/components/ui/drawer";
+import Popover from "./src/components/ui/popover";
+import DatePicker from "./src/components/ui/date-picker";
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [sheetVisible, setSheetVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [popoverVisible, setPopoverVisible] = useState(false);
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState<"success" | "error" | "info" | "warning">("success");
+  const [selectedDate, setSelectedDate] = useState(new Date());
   
   // Form states
   const [checkboxState, setCheckboxState] = useState(false);
@@ -352,6 +361,77 @@ export default function App() {
           <Spinner size="large" label="Loading..." />
         </View>
 
+        {/* ===== SHEET ===== */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>📄 Sheet (Bottom Sheet)</Text>
+          <Button onPress={() => setSheetVisible(true)}>Open Sheet</Button>
+          <Sheet
+            visible={sheetVisible}
+            onClose={() => setSheetVisible(false)}
+            title="Bottom Sheet Example"
+            showCloseButton
+          >
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              This is a bottom sheet that slides up from the bottom of the screen. You can drag it down to close.
+            </Text>
+          </Sheet>
+        </View>
+
+        {/* ===== DRAWER ===== */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>🎪 Drawer (Side Panel)</Text>
+          <Button onPress={() => setDrawerVisible(true)}>Open Drawer</Button>
+          <Drawer
+            visible={drawerVisible}
+            onClose={() => setDrawerVisible(false)}
+            title="Navigation Drawer"
+            position="left"
+            showCloseButton
+          >
+            <Text style={{ fontSize: 14, color: "#6b7280", lineHeight: 20 }}>
+              This is a left-side drawer panel. You can drag it to close or tap outside.
+            </Text>
+          </Drawer>
+        </View>
+
+        {/* ===== POPOVER ===== */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>💬 Popover</Text>
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <Popover
+              visible={popoverVisible}
+              onClose={() => setPopoverVisible(false)}
+              trigger={
+                <Button onPress={() => setPopoverVisible(true)} size="sm">
+                  Open Popover
+                </Button>
+              }
+              title="Popover Title"
+              position="bottom"
+            >
+              Click outside to close this popover!
+            </Popover>
+          </View>
+        </View>
+
+        {/* ===== DATE PICKER ===== */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>📅 Date Picker</Text>
+          <Button onPress={() => setDatePickerVisible(true)}>
+            {selectedDate.toLocaleDateString()}
+          </Button>
+          <DatePicker
+            visible={datePickerVisible}
+            onClose={() => setDatePickerVisible(false)}
+            value={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+              showToast(`Selected: ${date.toLocaleDateString()}`, "success");
+            }}
+            showTime={false}
+          />
+        </View>
+
         {/* ===== TOAST ===== */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>🔔 Toast Notifications</Text>
@@ -377,13 +457,13 @@ export default function App() {
         <Divider style={styles.divider} />
         <View style={{ alignItems: "center", gap: 8 }}>
           <TextComponent variant="small" color="muted" align="center">
-            Prasanga UI Starter Kit v1.0.0
+            Prasanga UI Starter Kit v1.2.0
           </TextComponent>
           <TextComponent variant="caption" color="muted" align="center">
             Built with Expo, TypeScript, and NativeWind
           </TextComponent>
           <TextComponent variant="caption" color="muted" align="center">
-            30+ Production-Ready Components
+            34+ Production-Ready Components
           </TextComponent>
         </View>
       </ScrollView>

@@ -49,8 +49,13 @@ const Accordion = React.forwardRef<View, AccordionProps>(
       container: {
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: "#e5e7eb",
+        borderColor: "#f0f0f0",
         overflow: "hidden",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 1,
       },
       item: {
         borderBottomWidth: 1,
@@ -64,7 +69,7 @@ const Accordion = React.forwardRef<View, AccordionProps>(
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 14,
         backgroundColor: "#ffffff",
       },
       headerText: {
@@ -72,21 +77,24 @@ const Accordion = React.forwardRef<View, AccordionProps>(
         fontWeight: "600",
         color: "#1f2937",
         flex: 1,
+        letterSpacing: 0.2,
       },
       arrow: {
         fontSize: 14,
-        color: "#6b7280",
+        color: "#0ea5e9",
         fontWeight: "bold",
+        marginLeft: 12,
       },
       content: {
         paddingHorizontal: 16,
         paddingVertical: 12,
-        backgroundColor: "#fafbfc",
+        backgroundColor: "#fafafa",
       },
       contentText: {
         fontSize: 13,
         color: "#6b7280",
         lineHeight: 20,
+        letterSpacing: 0.15,
       },
     });
 
@@ -103,7 +111,7 @@ const Accordion = React.forwardRef<View, AccordionProps>(
             <TouchableOpacity
               style={styles.header}
               onPress={() => toggleItem(item.id)}
-              activeOpacity={0.7}
+              activeOpacity={0.6}
             >
               <Text style={styles.headerText}>{item.title}</Text>
               <Text

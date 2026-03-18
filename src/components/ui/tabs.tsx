@@ -42,15 +42,23 @@ const Tabs = React.forwardRef<View, TabsProps>(
     const styles = StyleSheet.create({
       container: {
         backgroundColor: "#ffffff",
+        borderRadius: 8,
+        overflow: "hidden",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 1,
       },
       tabBar: {
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderBottomColor: "#e5e7eb",
+        borderBottomColor: "#f0f0f0",
+        backgroundColor: "#fafafa",
       },
       tab: {
         flex: 1,
-        paddingVertical: 12,
+        paddingVertical: 14,
         paddingHorizontal: 16,
         alignItems: "center",
         justifyContent: "center",
@@ -59,10 +67,12 @@ const Tabs = React.forwardRef<View, TabsProps>(
       },
       activeTab: {
         borderBottomColor: activeColor,
+        backgroundColor: "#ffffff",
       },
       tabText: {
         fontSize: 14,
         fontWeight: "600",
+        letterSpacing: 0.2,
       },
       activeTabText: {
         color: activeColor,
@@ -73,6 +83,7 @@ const Tabs = React.forwardRef<View, TabsProps>(
       content: {
         paddingVertical: 16,
         paddingHorizontal: 16,
+        backgroundColor: "#ffffff",
       },
     });
 

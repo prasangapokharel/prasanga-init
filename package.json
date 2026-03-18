@@ -1,18 +1,50 @@
 {
-  "name": "prasanga-starter",
-  "version": "1.0.0",
-  "description": "Prasanga UI Starter - Modern React Native UI kit with Expo, TypeScript, and NativeWind",
+  "name": "prasanga-init",
+  "version": "1.2.0",
+  "description": "Modern React Native UI starter kit with shadcn-style design, built with Expo, TypeScript, and NativeWind",
   "main": "expo-router/entry",
+  "bin": {
+    "prasanga-init": "cli.js"
+  },
+  "files": [
+    "src",
+    "App.tsx",
+    "cli.js",
+    "package.json",
+    "tsconfig.json",
+    "tailwind.config.js",
+    "babel.config.js",
+    "globals.css",
+    "app.json",
+    "README.md"
+  ],
+  "keywords": [
+    "react-native",
+    "expo",
+    "ui-components",
+    "nativewind",
+    "tailwind",
+    "typescript",
+    "starter-kit"
+  ],
+  "author": "Prasanga Pokharel",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:prasangapokharel/PrasangaKit.git"
+  },
+  "homepage": "https://github.com/prasangapokharel/PrasangaKit",
   "scripts": {
     "start": "expo start",
+    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "lint": "expo lint",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
-    "@nativewind/core": "^1.3.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
@@ -31,10 +63,8 @@
     "expo-web-browser": "~15.0.10",
     "nativewind": "^2.0.11",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
     "react-native": "0.81.5",
     "react-native-gesture-handler": "~2.28.0",
-    "react-native-worklets": "0.5.1",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
@@ -47,5 +77,9 @@
     "typescript": "~5.9.2",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0"
+  },
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

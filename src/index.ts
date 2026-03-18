@@ -19,6 +19,10 @@ export { default as Spinner } from "./components/ui/spinner";
 export { default as Tooltip } from "./components/ui/tooltip";
 export { default as Toast, type ToastType } from "./components/ui/toast";
 export { default as Modal } from "./components/ui/modal";
+export { default as Sheet } from "./components/ui/sheet";
+export { default as Drawer } from "./components/ui/drawer";
+export { default as Popover } from "./components/ui/popover";
+export { default as DatePicker } from "./components/ui/date-picker";
 
 // ===== Layout Components =====
 export { default as Container } from "./components/ui/container";
