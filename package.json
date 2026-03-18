@@ -29,7 +29,11 @@
     "type": "git",
     "url": "git@github.com:prasangapokharel/PrasangaKit.git"
   },
-  "homepage": "https://github.com/prasangapokharel/PrasangaKit",
+  "homepage": "https://prasangakit.smmv.shop",
+  "api": {
+    "endpoint": "https://prasangakit.smmv.shop",
+    "docs": "https://prasangakit.smmv.shop/docs"
+  },
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
