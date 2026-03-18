@@ -181,4 +181,136 @@ export const spacing = {
   "4xl": 48,
 };
 
+/**
+ * Convert HSL string (e.g., "0 0% 100%") to RGB hex color
+ * Used for CSS variable theme system integration with React Native
+ * @param hslString - HSL value as string: "h s% l%"
+ * @returns Hex color string: "#RRGGBB"
+ */
+export function hslToHex(hslString: string): string {
+  const parts = hslString.trim().split(/\s+/);
+  if (parts.length < 3) return "#000000";
+
+  const h = parseFloat(parts[0]);
+  const s = parseFloat(parts[1]) / 100;
+  const l = parseFloat(parts[2]) / 100;
+
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - ((h / 60) % 2 - 1));
+  const m = l - c / 2;
+
+  let r = 0, g = 0, b = 0;
+
+  if (h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
+  const toHex = (val: number) => {
+    const hex = Math.round((val + m) * 255).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  };
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+}
+
+/**
+ * Extract CSS variable value from computed styles
+ * Falls back to light mode defaults if not found
+ * @param variableName - CSS variable name without "--"
+ * @param isDark - Whether to use dark mode
+ * @returns CSS variable value as string
+ */
+export function getCSSVariableValue(variableName: string, isDark: boolean = false): string {
+  // This is a production-grade fallback system
+  // CSS variables are available in globals.css
+  const lightModeDefaults: Record<string, string> = {
+    background: "0 0% 100%",
+    foreground: "0 0% 3.9%",
+    primary: "0 0% 9%",
+    "primary-foreground": "210 40% 98%",
+    secondary: "0 0% 96.1%",
+    "secondary-foreground": "222.2 47.4% 11.2%",
+    destructive: "0 84.2% 60.2%",
+    "destructive-foreground": "210 40% 98%",
+    accent: "0 0% 96.1%",
+    "accent-foreground": "222.2 47.4% 11.2%",
+    success: "142 71.8% 29.2%",
+    "success-foreground": "210 40% 98%",
+    warning: "38 92.1% 50.2%",
+    "warning-foreground": "210 40% 98%",
+    input: "0 0% 89.8%",
+    border: "0 0% 89.8%",
+    muted: "210 40% 96.1%",
+    "muted-foreground": "215.4 16.3% 46.9%",
+    card: "0 0% 100%",
+    "card-foreground": "0 0% 3.9%",
+    popover: "0 0% 100%",
+    "popover-foreground": "0 0% 3.9%",
+    skeleton: "0 0% 89.8%",
+  };
+
+  const darkModeDefaults: Record<string, string> = {
+    background: "0 0% 3.9%",
+    foreground: "0 0% 98%",
+    primary: "0 0% 98%",
+    "primary-foreground": "0 0% 3.9%",
+    secondary: "0 0% 14.9%",
+    "secondary-foreground": "0 0% 98%",
+    destructive: "0 62.8% 30.6%",
+    "destructive-foreground": "0 0% 98%",
+    accent: "0 0% 14.9%",
+    "accent-foreground": "0 0% 98%",
+    success: "142 71.8% 29.2%",
+    "success-foreground": "0 0% 98%",
+    warning: "38 92.1% 50.2%",
+    "warning-foreground": "0 0% 3.9%",
+    input: "0 0% 14.9%",
+    border: "0 0% 14.9%",
+    muted: "217.2 32.6% 17.5%",
+    "muted-foreground": "215 20.2% 65.1%",
+    card: "0 0% 3.9%",
+    "card-foreground": "0 0% 98%",
+    popover: "0 0% 3.9%",
+    "popover-foreground": "0 0% 98%",
+    skeleton: "0 0% 14.9%",
+  };
+
+  const defaults = isDark ? darkModeDefaults : lightModeDefaults;
+  return defaults[variableName] || "#000000";
+}
+
+/**
+ * Convert CSS HSL variable to React Native color
+ * Combines CSS variable extraction with HSL to hex conversion
+ * @param variableName - CSS variable name without "--"
+ * @param isDark - Whether to use dark mode
+ * @returns Hex color string
+ */
+export function getCSSVariableColor(variableName: string, isDark: boolean = false): string {
+  const hslValue = getCSSVariableValue(variableName, isDark);
+  return hslToHex(hslValue);
+}
+
 

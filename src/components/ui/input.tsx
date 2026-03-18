@@ -6,6 +6,7 @@ import {
   ViewStyle,
   TextInputProps,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import { useTheme } from "../../lib/theme-context";
 
@@ -76,7 +77,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     };
 
     const getBackgroundColor = () => {
-      if (isFocused) return colors.primaryLight;
+      if (isFocused) return colors.secondary;
       if (hasError || error) return colors.destructiveLight;
       return colors.background;
     };
@@ -102,7 +103,7 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
         height: sizeStyles[size],
         paddingHorizontal: paddingStyles[size],
         gap: 8,
-        shadowColor: isFocused ? colors.primary : hasError ? colors.destructive : "transparent",
+        shadowColor: isFocused ? colors.secondary : hasError ? colors.destructive : "transparent",
         shadowOffset: { width: 0, height: isFocused ? 4 : 2 },
         shadowOpacity: isFocused ? 0.12 : hasError ? 0.08 : 0,
         shadowRadius: isFocused ? 8 : 4,
@@ -139,21 +140,29 @@ const Input = React.forwardRef<TextInput, InputComponentProps>(
     return (
       <View style={[styles.container, containerStyle]}>
         {label && <Text style={styles.labelText}>{label}</Text>}
-        <View style={styles.inputContainer}>
+        <Pressable 
+          style={styles.inputContainer}
+          onPress={() => {
+            if (ref && typeof ref === 'object' && 'current' in ref) {
+              ref.current?.focus();
+            }
+          }}
+        >
           {leftElement && <View style={styles.leftElement}>{leftElement}</View>}
-          <TextInput
-             ref={ref}
-             style={styles.input}
-             placeholder={placeholder}
-             placeholderTextColor={colors.mutedForeground}
-             onFocus={() => setIsFocused(true)}
-             onBlur={() => setIsFocused(false)}
-             {...props}
-           />
-          {rightElement && (
-            <View style={styles.rightElement}>{rightElement}</View>
-          )}
-        </View>
+           <TextInput
+              ref={ref}
+              style={styles.input}
+              placeholder={placeholder}
+              placeholderTextColor={colors.mutedForeground}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              editable={true}
+              {...props}
+            />
+           {rightElement && (
+             <View style={styles.rightElement}>{rightElement}</View>
+           )}
+        </Pressable>
         {error && <Text style={styles.errorText}>{error}</Text>}
         {!error && helperText && (
           <Text style={styles.helperText}>{helperText}</Text>
