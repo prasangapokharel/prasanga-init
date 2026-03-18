@@ -26,6 +26,7 @@ function AppContent() {
   const [toastMessage, setToastMessage] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [inputValue, setInputValue] = useState("");
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   const showToast = (message: string) => {
     setToastMessage(message);
@@ -472,9 +473,161 @@ function AppContent() {
         </View>
       </Drawer>
 
+      {/* Buttons Demo */}
+      {activeDemo === "buttons" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Button Variants
+          </Text>
+          <Button variant="primary" size="md">Primary Button</Button>
+          <Button variant="secondary" size="md">Secondary Button</Button>
+          <Button variant="destructive" size="md">Destructive Button</Button>
+          <Button variant="outline" size="md">Outline Button</Button>
+          <Button variant="ghost" size="md">Ghost Button</Button>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
+
+      {/* Inputs Demo */}
+      {activeDemo === "inputs" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Input Components
+          </Text>
+          <Input
+            placeholder="Enter your name"
+            value={inputValue}
+            onChangeText={setInputValue}
+          />
+          <Input
+            placeholder="Enter email"
+            editable={false}
+            defaultValue="user@example.com"
+          />
+          <Input
+            placeholder="Password input"
+            secureTextEntry
+          />
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
+
+      {/* Cards Demo */}
+      {activeDemo === "cards" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Card Variants
+          </Text>
+          <Card shadow shadowIntensity="subtle">
+            <Text style={{ fontSize: 14, fontWeight: "600", color: colors.foreground, marginBottom: 4 }}>
+              Subtle Card
+            </Text>
+            <Text style={{ fontSize: 13, color: colors.mutedForeground }}>
+              This card has a subtle shadow
+            </Text>
+          </Card>
+          <Card shadow shadowIntensity="medium">
+            <Text style={{ fontSize: 14, fontWeight: "600", color: colors.foreground, marginBottom: 4 }}>
+              Medium Card
+            </Text>
+            <Text style={{ fontSize: 13, color: colors.mutedForeground }}>
+              This card has a medium shadow
+            </Text>
+          </Card>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
+
+      {/* Badges Demo */}
+      {activeDemo === "badges" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Badge Variants
+          </Text>
+          <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+            <Badge variant="primary">Primary</Badge>
+            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="warning">Warning</Badge>
+            <Badge variant="destructive">Destructive</Badge>
+            <Badge variant="default">Default</Badge>
+          </View>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
+
+      {/* Date Picker Demo */}
+      {activeDemo === "datepicker" && (
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Date Picker
+          </Text>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setDatePickerVisible(true)}
+            containerStyle={{ marginBottom: 8 }}
+          >
+            Open Date Picker
+          </Button>
+          <Card shadow shadowIntensity="subtle">
+            <Text style={{ fontSize: 14, color: colors.mutedForeground }}>
+              Selected Date: {selectedDate.toLocaleDateString()}
+            </Text>
+          </Card>
+          <Button
+            variant="primary"
+            size="md"
+            onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
+          >
+            Close Demo
+          </Button>
+        </View>
+      )}
+
+      {/* Date Picker Modal */}
+      <DatePicker
+        value={selectedDate}
+        onChange={setSelectedDate}
+        visible={datePickerVisible}
+        onClose={() => setDatePickerVisible(false)}
+      />
+
       {/* Alert Demo */}
       {activeDemo === "alert" && (
-        <View style={{ padding: 20, gap: 12 }}>
+        <View style={{ padding: 20, gap: 12, backgroundColor: colors.background }}>
+          <Text style={{ fontSize: 18, fontWeight: "700", color: colors.foreground, marginBottom: 8 }}>
+            Alert Variants
+          </Text>
           <Alert type="info" title="Information" message="This is an informational alert message" />
           <Alert type="success" title="Success" message="Action completed successfully" />
           <Alert type="warning" title="Warning" message="Please review this warning carefully" />
@@ -483,6 +636,7 @@ function AppContent() {
             variant="primary"
             size="md"
             onPress={() => setActiveDemo(null)}
+            containerStyle={{ marginTop: 8 }}
           >
             Close Alerts
           </Button>
