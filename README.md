@@ -2,6 +2,28 @@
 
 A modern, clean, and scalable React Native UI component library built with **Expo**, **TypeScript**, and **NativeWind** (Tailwind CSS for React Native). Perfect for developers who want a shadcn-style design system ready to use out of the box.
 
+## 🎥 Demo & Guide
+
+https://github.com/prasangapokharel/prasanga-init/assets/demo.mp4
+
+*Watch the complete setup and component showcase guide*
+
+## 📱 Preview
+
+<div align="center">
+
+### 🌐 Website Preview
+![Website Demo](docs/demo.png)
+*Complete component library showcase*
+
+### 📱 Mobile App Preview  
+![iOS App](docs/ios.png)
+*Running on iOS with Expo Go*
+
+</div>
+
+---
+
 ## 🚀 Quick Start
 
 **One command to create a new Prasanga app:**
