@@ -4,7 +4,12 @@ A modern, clean, and scalable React Native UI component library built with **Exp
 
 ## 🎥 Demo & Guide
 
-https://github.com/prasangapokharel/prasanga-init/assets/demo.mp4
+<div align="center">
+  <video width="800" controls autoplay muted loop>
+    <source src="docs/demo.mp4" type="video/mp4">
+    <img src="docs/demo.png" alt="Demo Preview" width="800">
+  </video>
+</div>
 
 *Watch the complete setup and component showcase guide*
 
